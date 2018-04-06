@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Liam Logan on 05/04/18 18:08
+  ~ Copyright (c) 2018. All rights reserved.
+  ~
+  ~ Last modified 05/04/18 15:13
+  -->
+
+<resources>
+    <string name="app_name">Stirling University Tracker</string>
+
+    <string name="preferences">Preferences</string>
+    <string name="choose_algorithm">Algorithms</string>
+
+    <string name="radiomap_file_settings">Radiomap Settings</string>
+    <string name="radiomap_file_title">Radiomap File</string>
+    <string name="radiomap_file_summary">The radiomap that is currently used to estimate
+		position</string>
+
+
+    <string name="parentDir">..</string>
+    <string name="homeDir">.</string>
+
+    <string name="algorithms_title">Positioning Algorithms</string>
+
+    <string name="algorithms_summary">Choose one of the following algorithms to estimate your position</string>
+
+
+    <string-array name="AlgorithmsArray">
+
+    <item>K Nearest Neighbor (KNN) Algorithm</item>
+
+</string-array>
+
+
+    <string-array name="AlgorithmsValues">
+
+    <item>1</item>
+
+</string-array>
+
+    <string name="splash_title"> Hello, This is your tracker here, \n I will be here to provide you assistance
+                                    throughout the University.</string>
+
+    <string name = "Rm1"> Room 1</string>
+    <string name = "Rm2"> Room 2</string>
+    <string name = "Rm3"> Room 3</string>
+    <string name = "Rm4"> Room 4</string>
+    <string name = "Rm5"> Room 5</string>
+    <string name = "Rm6"> Room 6</string>
+    <string name = "Rm8"> Room 8</string>
+    <string name = "Rm9"> Room 9</string>
+    <string name = "Rm10"> Room 10</string>
+    <string name = "Rm11"> Room 11</string>
+    <string name = "Rm13"> Room 13</string>
+    <string name = "Rm14"> Room 14</string>
+    <string name = "Rm15"> Room 15</string>
+    <string name = "Rm16"> Room 16</string>
+    <string name = "Rm17"> Room 17</string>
+    <string name = "Rm18"> Room 18</string>
+    <string name = "Rm19"> Room 19</string>
+    <string name = "Rm20"> Room 20</string>
+    <string name = "Rm21"> Room 21</string>
+    <string name = "Rm22"> Room 22</string>
+    <string name = "Rm24"> Room 24</string>
+    <string name = "Rm25"> Room 25</string>
+    <string name = "Rm26"> Room 26</string>
+    <string name = "Rm28"> Room 28</string>
+    <string name = "Rm29"> Room 29</string>
+    <string name = "Rm31"> Room 31</string>
+    <string name = "Rm33"> Room 33</string>
+    <string name = "Rm35"> Room 35</string>
+    <string name = "Rm36"> Room 36</string>
+    <string name = "Rm37"> Room 37</string>
+    <string name = "Rm38"> Room 38</string>
+    <string name = "Rm39"> Room 39</string>
+    <string name = "Rm40"> Room 40</string>
+    <string name = "Rm41"> Room 41</string>
+    <string name = "Rm42"> Room 42</string>
+    <string name = "Rm43"> Room 43</string>
+    <string name = "Rm44"> Room 44</string>
+    <string name = "Rm45"> Room 45</string>
+    <string name = "Rm46"> Room 46</string>
+    <string name = "Rm47"> Room 47</string>
+    <string name = "Rm48"> Room 48</string>
+    <string name = "Rm49"> Room 49</string>
+    <string name = "Rm50"> Room 50</string>
+    <string name = "Rm51"> Room 51</string>
+    <string name = "Rm52"> Room 52</string>
+    <string name = "Rm53"> Room 53</string>
+    <string name = "Rm54"> Room 54</string>
+    <string name = "Rm55"> Room 55</string>
+    <string name = "Rm56"> Room 56</string>
+    <string name = "Rm57"> Room 57</string>
+    <string name = "Rm58"> Room 58</string>
+    <string name = "Rm59"> Room 59</string>
+    <string name = "Rm60"> Room 60</string>
+    <string name = "Rm61"> Room 61</string>
+    <string name = "Rm62"> Room 62</string>
+    <string name = "Rm63"> Room 63</string>
+    <string name = "Rm64"> Room 64</string>
+    <string name = "Rm65"> Room 65</string>
+    <string name = "Rm66"> Room 66</string>
+    <string name = "Rm67"> Room 67</string>
+    <string name = "Rm68"> Room 68</string>
+    <string name = "Rm69"> Room 69</string>
+    <string name = "Rm70"> Room 70</string>
+    <string name = "Rm72"> Room 72</string>
+    <string name = "Rm72a"> Room 72A</string>
+    <string name = "Rm73"> Room 73</string>
+    <string name = "Rm74"> Room 74</string>
+    <string name = "Rm75"> Room 75</string>
+    <string name = "Rm76"> Room 76</string>
+    <string name = "Rm77"> Room 77</string>
+    <string name = "Rm78"> Room 78</string>
+    <string name = "Rm79"> Room 79</string>
+    <string name = "Rm80"> Room 80</string>
+    <string name = "Rm80b"> Room 80B</string>
+    <string name = "Rm80c"> Room 80C</string>
+    <string name = "Rm81"> Room 81</string>
+    <string name = "Rm84"> Room 84</string>
+    <string name = "Rm85"> Room 85</string>
+    <string name = "Rm86"> Room 86</string>
+    <string name = "Rm87"> Room 87</string>
+    <string name = "Rm88"> Room 88</string>
+    <string name = "Rm89"> Room 89</string>
+    <string name = "Rm91"> Room 91</string>
+    <string name = "Rm116"> Room 116</string>
+    <string name = "Rm118"> Room 118</string>
+    <string name = "Rm121"> Room 121</string>
+    <string name = "Rm129"> Room 129</string>
+    <string name = "Rm133"> Room 133</string>
+    <string name = "Rm141"> Room 141</string>
+    <string name = "Rm143"> Room 143</string>
+    <string name = "Rm145"> Room 145</string>
+    <string name = "Rm147"> Room 147</string>
+    <string name = "Rm160"> Room 160</string>
+
+
+
+
+</resources>

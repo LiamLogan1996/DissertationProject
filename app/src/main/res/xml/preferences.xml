@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Created by Liam Logan on 05/04/18 18:08
+  ~ Copyright (c) 2018. All rights reserved.
+  ~
+  ~ Last modified 03/04/18 19:29
+  -->
+
+<PreferenceScreen android:key="pref_screen_key"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory android:title="@string/radiomap_file_settings">
+
+		<Preference android:key="radiomap_file" android:title="@string/radiomap_file_title"
+			android:summary="@string/radiomap_file_summary" />
+
+	</PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Liam Logan on 05/04/18 18:08
+  ~ Copyright (c) 2018. All rights reserved.
+  ~
+  ~ Last modified 01/04/18 20:50
+  -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="liam.dissertationproject.Tracker"
+    android:versionCode="1"
+    android:versionName="1.0">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:icon="@drawable/uos"
+        android:theme="@style/AppTheme"
+        android:label="@string/app_name">
+        <activity
+            android:name=".Splash"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".StartMenu"
+            android:label="Start Menu"/>
+
+        <activity
+            android:name=".LocateMe"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name="liam.dissertationproject.Algorithm.SelectPositioningAlgorithm"
+            android:label="Algorithms Preferences"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Preferences"
+            android:label="Preferences"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="liam.dissertationproject.FileBrowser.AndroidFileBrowser"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

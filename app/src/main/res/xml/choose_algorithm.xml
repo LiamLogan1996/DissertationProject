@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Created by Liam Logan on 05/04/18 18:08
+  ~ Copyright (c) 2018. All rights reserved.
+  ~
+  ~ Last modified 22/03/18 21:56
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+	<PreferenceCategory android:title="Algorithms">
+
+	<ListPreference android:title="@string/algorithms_title" android:entryValues="@array/AlgorithmsValues" android:entries="@array/AlgorithmsArray" android:defaultValue="1" android:key="Algorithms" android:summary="@string/algorithms_summary"/>
+
+</PreferenceCategory>
+
+</PreferenceScreen>

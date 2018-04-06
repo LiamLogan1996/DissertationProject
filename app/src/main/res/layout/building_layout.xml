@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Liam Logan on 05/04/18 18:08
+  ~ Copyright (c) 2018. All rights reserved.
+  ~
+  ~ Last modified 05/04/18 01:11
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:orientation="vertical" android:layout_height="wrap_content"
+	android:layout_width="fill_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/lightgrey"
+        android:gravity="top">
+
+
+        <TextView
+            android:id="@+id/LatTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/LonTitle"
+            android:layout_alignBottom="@+id/LonTitle"
+            android:layout_marginEnd="9dp"
+            android:layout_toStartOf="@+id/longitude"
+            android:background="@color/lightgrey"
+            android:gravity="center"
+            android:text="X:"
+            android:textColor="#000000"></TextView>
+
+        <TextView
+            android:id="@+id/LonTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="7dp"
+            android:layout_toEndOf="@+id/scanResults"
+            android:background="@color/lightgrey"
+            android:gravity="center"
+            android:text="Y:"
+            android:textColor="#000000"></TextView>
+
+
+        <TextView
+            android:id="@+id/latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/LonTitle"
+            android:layout_alignBottom="@+id/LonTitle"
+            android:layout_alignStart="@+id/LonTitle"
+            android:layout_marginStart="21dp"
+            android:background="@color/lightgrey"
+            android:inputType="numberDecimal"
+            android:maxLength="10"
+            android:textColor="#000000"></TextView>
+
+        <TextView
+            android:id="@+id/longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/LatTitle"
+            android:layout_alignBottom="@+id/LatTitle"
+            android:layout_marginEnd="14dp"
+            android:layout_toStartOf="@+id/scanResults"
+            android:background="@color/lightgrey"
+            android:inputType="numberDecimal"
+            android:maxLength="10"
+            android:textColor="#000000"></TextView>
+
+
+        <TextView
+            android:id="@+id/scanResults"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/LatTitle"
+            android:layout_centerHorizontal="true"
+            android:text="AP:"
+            android:textColor="#000000" />
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:paddingTop="10dip">
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <liam.dissertationproject.zoom.ImageZoomView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/zoomview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true" />
+
+        </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/find_me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/Routing"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/Routing"
+            android:text="Find Me"></Button>
+
+        <ToggleButton
+            android:id="@+id/trackme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_toEndOf="@+id/Routing"
+            android:layout_toStartOf="@+id/find_me"
+            android:textOff="Track Me Off"
+            android:textOn="Track Me On" />
+
+        <Button
+            android:id="@+id/Routing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:onClick="showPopUp"
+            android:text="Route Me"></Button>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
+	
