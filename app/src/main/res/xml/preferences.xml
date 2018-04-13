@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Created by Liam Logan on 05/04/18 18:08
-  ~ Copyright (c) 2018. All rights reserved.
+  ~ Created by Liam Logan
+  ~ Copyright (c) 2018. All Rights reserved
   ~
-  ~ Last modified 03/04/18 19:29
+  ~ Last Modified .12/04/18 13:31
   -->
 
-<PreferenceScreen android:key="pref_screen_key"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="pref_screen_key">
 
-	<PreferenceCategory android:title="@string/radiomap_file_settings">
+    <PreferenceCategory android:title="@string/radiomap_file_settings">
 
-		<Preference android:key="radiomap_file" android:title="@string/radiomap_file_title"
-			android:summary="@string/radiomap_file_summary" />
+        <Preference
+            android:key="radiomap_file"
+            android:summary="@string/radiomap_file_summary"
+            android:title="@string/radiomap_file_title" />
 
-	</PreferenceCategory>
+    </PreferenceCategory>
 
 </PreferenceScreen>

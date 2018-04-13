@@ -1,8 +1,9 @@
+
 /*
- * Created by Liam Logan on 05/04/18 18:08
- * Copyright (c) 2018. All rights reserved.
+ * Created by Liam Logan
+ * Copyright (c) 2018. All Rights reserved
  *
- * Last modified 30/03/18 16:32
+ * Last Modified 12/04/18 17:01
  */
 
 package WiFi;
@@ -13,10 +14,10 @@ import android.content.Intent;
 
 public abstract class Receiver extends BroadcastReceiver {
 
-	@Override
-	public void onReceive(Context paramContext, Intent paramIntent) {
-		
-		
-	}
+    @Override
+    public void onReceive(Context paramContext, Intent paramIntent) {
+
+
+    }
 
 }

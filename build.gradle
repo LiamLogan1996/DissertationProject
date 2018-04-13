@@ -1,3 +1,10 @@
+/*
+ * Created by Liam Logan
+ * Copyright (c) 2018. All Rights reserved
+ *
+ * Last Modified .06/04/18 12:23
+ */
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {

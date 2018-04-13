@@ -1,5 +1,21 @@
+/*
+ * Copyright 2010 Sony Ericsson Mobile Communications AB
+ * Copyright 2012 Nadeem Hasan <nhasan@nadmm.com>
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
-package liam.dissertationproject.zoom;
+package liam.dissertationproject.ZoomFunction;
 
 /**
  * Utility class used to handle flinging within a specified limit.
@@ -10,28 +26,38 @@ public abstract class Dynamics {
      */
     private static final int MAX_TIMESTEP = 50;
 
-    /** The current position */
+    /**
+     * The current position
+     */
     protected float mPosition;
 
-    /** The current velocity */
+    /**
+     * The current velocity
+     */
     protected float mVelocity;
 
-    /** The current maximum position */
+    /**
+     * The current maximum position
+     */
     protected float mMaxPosition = Float.MAX_VALUE;
 
-    /** The current minimum position */
+    /**
+     * The current minimum position
+     */
     protected float mMinPosition = -Float.MAX_VALUE;
 
-    /** The time of the last update */
+    /**
+     * The time of the last update
+     */
     protected long mLastTime = 0;
 
     /**
      * Sets the state of the dynamics object. Should be called before starting
      * to call update.
-     * 
+     *
      * @param position The current position.
      * @param velocity The current velocity in pixels per second.
-     * @param now The current time
+     * @param now      The current time
      */
     public void setState(final float position, final float velocity, final long now) {
         mVelocity = velocity;
@@ -42,7 +68,7 @@ public abstract class Dynamics {
     /**
      * Returns the current position. Normally used after a call to update() in
      * order to get the updated position.
-     * 
+     *
      * @return The current position
      */
     public float getPosition() {
@@ -51,7 +77,7 @@ public abstract class Dynamics {
 
     /**
      * Gets the velocity. Unit is in pixels per second.
-     * 
+     *
      * @return The velocity in pixels per second
      */
     public float getVelocity() {
@@ -62,12 +88,11 @@ public abstract class Dynamics {
      * Used to find out if the list is at rest, that is, has no velocity and is
      * inside the the limits. Normally used to know if more calls to update are
      * needed.
-     * 
+     *
      * @param velocityTolerance Velocity is regarded as 0 if less than
-     *            velocityTolerance
+     *                          velocityTolerance
      * @param positionTolerance Position is regarded as inside the limits even
-     *            if positionTolerance above or below
-     * 
+     *                          if positionTolerance above or below
      * @return true if list is at rest, false otherwise
      */
     public boolean isAtRest(final float velocityTolerance, final float positionTolerance) {
@@ -79,7 +104,7 @@ public abstract class Dynamics {
 
     /**
      * Sets the maximum position.
-     * 
+     *
      * @param maxPosition The maximum value of the position
      */
     public void setMaxPosition(final float maxPosition) {
@@ -88,7 +113,7 @@ public abstract class Dynamics {
 
     /**
      * Sets the minimum position.
-     * 
+     *
      * @param minPosition The minimum value of the position
      */
     public void setMinPosition(final float minPosition) {
@@ -97,11 +122,11 @@ public abstract class Dynamics {
 
     /**
      * Updates the position and velocity.
-     * 
+     *
      * @param now The current time
      */
     public void update(final long now) {
-        int dt = (int)(now - mLastTime);
+        int dt = (int) (now - mLastTime);
         if (dt > MAX_TIMESTEP) {
             dt = MAX_TIMESTEP;
         }
@@ -113,10 +138,10 @@ public abstract class Dynamics {
 
     /**
      * Gets the distance to the closest limit (max and min position).
-     * 
+     *
      * @return If position is more than max position: distance to max position. If
-     *         position is less than min position: distance to min position. If
-     *         within limits: 0
+     * position is less than min position: distance to min position. If
+     * within limits: 0
      */
     protected float getDistanceToLimit() {
         float distanceToLimit = 0;
@@ -132,7 +157,7 @@ public abstract class Dynamics {
 
     /**
      * Updates the position and velocity.
-     * 
+     *
      * @param dt The delta time since last time
      */
     abstract protected void onUpdate(int dt);

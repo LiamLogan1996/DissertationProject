@@ -1,14 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Created by Liam Logan on 05/04/18 18:08
-  ~ Copyright (c) 2018. All rights reserved.
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Liam Logan
+  ~ Copyright (c) 2018. All Rights reserved
   ~
-  ~ Last modified 05/04/18 16:28
+  ~ Last Modified .05/04/18 18:31
   -->
 
-<menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="Lecture Theatres -->">
 
@@ -17,7 +14,7 @@
 
                 <item
                     android:id="@+id/LTA1"
-                    android:title="LTA1"/>
+                    android:title="LTA1" />
                 <item
                     android:id="@+id/LTA3"
                     android:title="LTA3" />
@@ -51,7 +48,7 @@
 
                 <item
                     android:id="@+id/Room1"
-                    android:title="@string/Rm1"/>
+                    android:title="@string/Rm1" />
                 <item
                     android:id="@+id/Room2"
                     android:title="@string/Rm2" />
@@ -69,7 +66,7 @@
                     android:title="@string/Rm9" />
                 <item
                     android:id="@+id/Room11"
-                    android:title="@string/Rm11"/>
+                    android:title="@string/Rm11" />
                 <item
                     android:id="@+id/Room13"
                     android:title="@string/Rm13" />
@@ -81,7 +78,7 @@
                     android:title="@string/Rm15" />
                 <item
                     android:id="@+id/Room16"
-                    android:title="@string/Rm16"/>
+                    android:title="@string/Rm16" />
                 <item
                     android:id="@+id/Room17"
                     android:title="@string/Rm17" />
@@ -93,13 +90,13 @@
                     android:title="@string/Rm19" />
                 <item
                     android:id="@+id/Room21"
-                    android:title="@string/Rm21"/>
+                    android:title="@string/Rm21" />
                 <item
                     android:id="@+id/Room29"
                     android:title="@string/Rm29" />
                 <item
                     android:id="@+id/Room31"
-                    android:title="@string/Rm31"/>
+                    android:title="@string/Rm31" />
                 <item
                     android:id="@+id/Room33"
                     android:title="@string/Rm33" />
@@ -114,7 +111,7 @@
                     android:title="@string/Rm39" />
                 <item
                     android:id="@+id/Room41"
-                    android:title="@string/Rm41"/>
+                    android:title="@string/Rm41" />
                 <item
                     android:id="@+id/Room43"
                     android:title="@string/Rm43" />
@@ -126,11 +123,10 @@
                     android:title="@string/Rm47" />
                 <item
                     android:id="@+id/Room49"
-                    android:title="@string/Rm49"
-                    />
+                    android:title="@string/Rm49" />
                 <item
                     android:id="@+id/Room51"
-                    android:title="@string/Rm51"/>
+                    android:title="@string/Rm51" />
                 <item
                     android:id="@+id/Room53"
                     android:title="@string/Rm53" />
@@ -140,7 +136,7 @@
                     android:title="@string/Rm55" />
                 <item
                     android:id="@+id/Room56"
-                    android:title="@string/Rm56"/>
+                    android:title="@string/Rm56" />
                 <item
                     android:id="@+id/Room57"
                     android:title="@string/Rm57" />
@@ -148,66 +144,85 @@
                     android:id="@+id/Room58"
                     android:title="@string/Rm58" />
 
-                <item android:id ="@+id/Room59"
+                <item
+                    android:id="@+id/Room59"
                     android:title="@string/Rm59" />
 
-                <item android:id ="@+id/Room60"
+                <item
+                    android:id="@+id/Room60"
                     android:title="@string/Rm60" />
 
-                <item android:id ="@+id/Room61"
+                <item
+                    android:id="@+id/Room61"
                     android:title="@string/Rm61" />
 
-                <item android:id ="@+id/Room62"
+                <item
+                    android:id="@+id/Room62"
                     android:title="@string/Rm62" />
 
-                <item android:id ="@+id/Room63"
+                <item
+                    android:id="@+id/Room63"
                     android:title="@string/Rm63" />
 
-                <item android:id ="@+id/Room64"
+                <item
+                    android:id="@+id/Room64"
                     android:title="@string/Rm64" />
 
-                <item android:id ="@+id/Room65"
+                <item
+                    android:id="@+id/Room65"
                     android:title="@string/Rm65" />
 
-                <item android:id ="@+id/Room66"
+                <item
+                    android:id="@+id/Room66"
                     android:title="@string/Rm66" />
 
-                <item android:id ="@+id/Room68"
+                <item
+                    android:id="@+id/Room68"
                     android:title="@string/Rm68" />
 
-                <item android:id ="@+id/Room70"
+                <item
+                    android:id="@+id/Room70"
                     android:title="@string/Rm70" />
 
-                <item android:id ="@+id/Room72"
+                <item
+                    android:id="@+id/Room72"
                     android:title="@string/Rm72" />
 
-                <item android:id ="@+id/Room73"
+                <item
+                    android:id="@+id/Room73"
                     android:title="@string/Rm73" />
 
-                <item android:id ="@+id/Room74"
+                <item
+                    android:id="@+id/Room74"
                     android:title="@string/Rm74" />
 
-                <item android:id ="@+id/Room75"
+                <item
+                    android:id="@+id/Room75"
                     android:title="@string/Rm75" />
 
-                <item android:id ="@+id/Room77"
+                <item
+                    android:id="@+id/Room77"
                     android:title="@string/Rm77" />
 
-                <item android:id ="@+id/Room78"
+                <item
+                    android:id="@+id/Room78"
                     android:title="@string/Rm78" />
 
-                <item android:id ="@+id/Room79"
+                <item
+                    android:id="@+id/Room79"
                     android:title="@string/Rm79" />
 
-                <item android:id ="@+id/Room81"
+                <item
+                    android:id="@+id/Room81"
                     android:title="@string/Rm81" />
 
-                <item android:id ="@+id/Room87"
+                <item
+                    android:id="@+id/Room87"
                     android:title="@string/Rm87" />
 
-                <item android:id ="@+id/Room91"
+                <item
+                    android:id="@+id/Room91"
                     android:title="@string/Rm91" />
-
 
 
             </group>
@@ -218,60 +233,60 @@
 
         <menu>
             <group>
-                <item android:title="@string/Rm1"/>
+                <item android:title="@string/Rm1" />
                 <item android:title="@string/Rm2" />
                 <item android:title="@string/Rm3" />
                 <item android:title="@string/Rm4" />
-                <item android:title="@string/Rm6"/>
+                <item android:title="@string/Rm6" />
                 <item android:title="@string/Rm8" />
                 <item android:title="@string/Rm10" />
-                <item android:title="@string/Rm18"/>
+                <item android:title="@string/Rm18" />
                 <item android:title="@string/Rm19" />
                 <item android:title="@string/Rm20" />
                 <item android:title="@string/Rm21" />
                 <item android:title="@string/Rm22" />
-                <item android:title="@string/Rm24"/>
+                <item android:title="@string/Rm24" />
                 <item android:title="@string/Rm25" />
                 <item android:title="@string/Rm26" />
                 <item android:title="@string/Rm26" />
                 <item android:title="@string/Rm28" />
-                <item android:title="@string/Rm31"/>
+                <item android:title="@string/Rm31" />
                 <item android:title="@string/Rm36" />
                 <item android:title="@string/Rm38" />
                 <item android:title="@string/Rm39" />
                 <item android:title="@string/Rm40" />
-                <item android:title="@string/Rm41"/>
+                <item android:title="@string/Rm41" />
                 <item android:title="@string/Rm42" />
                 <item android:title="@string/Rm43" />
                 <item android:title="@string/Rm44" />
                 <item android:title="@string/Rm45" />
-                <item android:title="@string/Rm46"/>
+                <item android:title="@string/Rm46" />
                 <item android:title="@string/Rm48" />
-                <item android:title="@string/Rm50"/>
+                <item android:title="@string/Rm50" />
                 <item android:title="@string/Rm52" />
                 <item android:title="@string/Rm72" />
                 <item android:title="@string/Rm72a" />
                 <item android:title="@string/Rm75" />
-                <item android:title="@string/Rm76"/>
+                <item android:title="@string/Rm76" />
                 <item android:title="@string/Rm77" />
                 <item android:title="@string/Rm79" />
                 <item android:title="@string/Rm79" />
-                <item android:title="@string/Rm80"/>
-                <item android:title="@string/Rm80b"/>
+                <item android:title="@string/Rm80" />
+                <item android:title="@string/Rm80b" />
                 <item android:title="@string/Rm80c" />
                 <item android:title="@string/Rm84" />
                 <item android:title="@string/Rm85" />
-                <item android:title="@string/Rm86"/>
+                <item android:title="@string/Rm86" />
                 <item android:title="@string/Rm87" />
                 <item android:title="@string/Rm88" />
                 <item android:title="@string/Rm89" />
                 <item android:title="@string/Rm116" />
                 <item android:title="@string/Rm118" />
-                <item android:title="@string/Rm121"/>
+                <item android:title="@string/Rm121" />
                 <item android:title="@string/Rm129" />
                 <item android:title="@string/Rm133" />
                 <item android:title="@string/Rm141" />
-                <item android:title="@string/Rm143"/>
+                <item android:title="@string/Rm143" />
                 <item android:title="@string/Rm145" />
                 <item android:title="@string/Rm147" />
                 <item android:title="@string/Rm147" />

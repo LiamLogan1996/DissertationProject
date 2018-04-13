@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Created by Liam Logan on 05/04/18 18:08
-  ~ Copyright (c) 2018. All rights reserved.
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Liam Logan
+  ~ Copyright (c) 2018. All Rights reserved
   ~
-  ~ Last modified 05/04/18 01:11
+  ~ Last Modified .12/04/18 14:23
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:orientation="vertical" android:layout_height="wrap_content"
-	android:layout_width="fill_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,67 +21,65 @@
             android:id="@+id/LatTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/LonTitle"
-            android:layout_alignBottom="@+id/LonTitle"
-            android:layout_marginEnd="9dp"
-            android:layout_toStartOf="@+id/longitude"
-            android:background="@color/lightgrey"
-            android:gravity="center"
-            android:text="X:"
-            android:textColor="#000000"></TextView>
-
-        <TextView
-            android:id="@+id/LonTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="7dp"
-            android:layout_toEndOf="@+id/scanResults"
+            android:layout_marginStart="75dp"
             android:background="@color/lightgrey"
             android:gravity="center"
-            android:text="Y:"
-            android:textColor="#000000"></TextView>
+            android:text="X: "
+            android:textColor="#000000" />
 
 
         <TextView
             android:id="@+id/latitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/LonTitle"
-            android:layout_alignBottom="@+id/LonTitle"
-            android:layout_alignStart="@+id/LonTitle"
-            android:layout_marginStart="21dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="95dp"
             android:background="@color/lightgrey"
             android:inputType="numberDecimal"
             android:maxLength="10"
-            android:textColor="#000000"></TextView>
+            android:text="000.00"
+            android:textColor="#000000" />
+
+
+        <TextView
+            android:id="@+id/LonTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="127dp"
+            android:background="@color/lightgrey"
+            android:gravity="center"
+            android:text="Y: "
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/longitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/LatTitle"
-            android:layout_alignBottom="@+id/LatTitle"
-            android:layout_marginEnd="14dp"
-            android:layout_toStartOf="@+id/scanResults"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="84dp"
             android:background="@color/lightgrey"
             android:inputType="numberDecimal"
             android:maxLength="10"
-            android:textColor="#000000"></TextView>
+            android:text="00.00"
+            android:textColor="#000000" />
 
 
         <TextView
             android:id="@+id/scanResults"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/LatTitle"
-            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="1dp"
             android:text="AP:"
             android:textColor="#000000" />
 
     </RelativeLayout>
-
 
 
     <RelativeLayout
@@ -96,7 +93,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
-            <liam.dissertationproject.zoom.ImageZoomView xmlns:android="http://schemas.android.com/apk/res/android"
+            <liam.dissertationproject.ZoomFunction.ImageZoomView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/zoomview"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -107,14 +104,14 @@
 
 
         <Button
-            android:id="@+id/find_me"
+            android:id="@+id/locateMe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/Routing"
+            android:layout_alignBottom="@+id/Destination"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/Routing"
-            android:text="Find Me"></Button>
+            android:layout_alignTop="@+id/Destination"
+            android:text="Locate Me" />
 
         <ToggleButton
             android:id="@+id/trackme"
@@ -122,19 +119,19 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="0dp"
-            android:layout_toEndOf="@+id/Routing"
-            android:layout_toStartOf="@+id/find_me"
+            android:layout_toEndOf="@+id/Destination"
+            android:layout_toStartOf="@+id/locateMe"
             android:textOff="Track Me Off"
             android:textOn="Track Me On" />
 
         <Button
-            android:id="@+id/Routing"
+            android:id="@+id/Destination"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:onClick="showPopUp"
-            android:text="Route Me"></Button>
+            android:text="Destinations" />
 
 
     </RelativeLayout>

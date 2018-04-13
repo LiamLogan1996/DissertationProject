@@ -1,6 +1,21 @@
+/*
+ * Copyright 2010 Sony Ericsson Mobile Communications AB
+ * Copyright 2012 Nadeem Hasan <nhasan@nadmm.com>
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
-
-package liam.dissertationproject.zoom;
+package liam.dissertationproject.ZoomFunction;
 
 import java.util.Observable;
 
@@ -30,7 +45,7 @@ public class ZoomState extends Observable {
 
     /**
      * Get current x-pan
-     * 
+     *
      * @return current x-pan
      */
     public float getPanX() {
@@ -38,46 +53,8 @@ public class ZoomState extends Observable {
     }
 
     /**
-     * Get current y-pan
-     * 
-     * @return Current y-pan
-     */
-    public float getPanY() {
-        return mPanY;
-    }
-
-    /**
-     * Get current zoom value
-     * 
-     * @return Current zoom value
-     */
-    public float getZoom() {
-        return mZoom;
-    }
-
-    /**
-     * Help function for calculating current zoom value in x-dimension
-     * 
-     * @param aspectQuotient (Aspect ratio content) / (Aspect ratio view)
-     * @return Current zoom value in x-dimension
-     */
-    public float getZoomX(float aspectQuotient) {
-        return Math.min(mZoom, mZoom * aspectQuotient);
-    }
-
-    /**
-     * Help function for calculating current zoom value in y-dimension
-     * 
-     * @param aspectQuotient (Aspect ratio content) / (Aspect ratio view)
-     * @return Current zoom value in y-dimension
-     */
-    public float getZoomY(float aspectQuotient) {
-        return Math.min(mZoom, mZoom / aspectQuotient);
-    }
-
-    /**
      * Set pan-x
-     * 
+     *
      * @param panX Pan-x value to set
      */
     public void setPanX(float panX) {
@@ -88,8 +65,17 @@ public class ZoomState extends Observable {
     }
 
     /**
+     * Get current y-pan
+     *
+     * @return Current y-pan
+     */
+    public float getPanY() {
+        return mPanY;
+    }
+
+    /**
      * Set pan-y
-     * 
+     *
      * @param panY Pan-y value to set
      */
     public void setPanY(float panY) {
@@ -100,8 +86,17 @@ public class ZoomState extends Observable {
     }
 
     /**
+     * Get current zoom value
+     *
+     * @return Current zoom value
+     */
+    public float getZoom() {
+        return mZoom;
+    }
+
+    /**
      * Set zoom
-     * 
+     *
      * @param zoom Zoom value to set
      */
     public void setZoom(float zoom) {
@@ -109,6 +104,26 @@ public class ZoomState extends Observable {
             mZoom = zoom;
             setChanged();
         }
+    }
+
+    /**
+     * Help function for calculating current zoom value in x-dimension
+     *
+     * @param aspectQuotient (Aspect ratio content) / (Aspect ratio view)
+     * @return Current zoom value in x-dimension
+     */
+    public float getZoomX(float aspectQuotient) {
+        return Math.min(mZoom, mZoom * aspectQuotient);
+    }
+
+    /**
+     * Help function for calculating current zoom value in y-dimension
+     *
+     * @param aspectQuotient (Aspect ratio content) / (Aspect ratio view)
+     * @return Current zoom value in y-dimension
+     */
+    public float getZoomY(float aspectQuotient) {
+        return Math.min(mZoom, mZoom / aspectQuotient);
     }
 
 }

@@ -1,11 +1,11 @@
 /*
- * Created by Liam Logan on 05/04/18 18:08
- * Copyright (c) 2018. All rights reserved.
+ * Created by Liam Logan
+ * Copyright (c) 2018. All Rights reserved
  *
- * Last modified 30/03/18 15:40
+ * Last Modified .12/04/18 13:50
  */
 
-package liam.dissertationproject.Tracker;
+package liam.dissertationproject.Positioning;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,25 +37,25 @@ public class Splash extends AppCompatActivity {
         }).start();
     }
 
-        private void doWork(){
-            while (progressStatus < 100) {
-                progressStatus+=10;
-                progressBar.setProgress(progressStatus);
-                {
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+    private void doWork() {
+        while (progressStatus < 100) {
+            progressStatus += 10;
+            progressBar.setProgress(progressStatus);
+            {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
+        }
     }
 
-    private void startApp(){
-            Intent intent = new Intent(Splash.this, StartMenu.class);
-            startActivity(intent);
+    private void startApp() {
+        Intent intent = new Intent(Splash.this, StartMenu.class);
+        startActivity(intent);
     }
 
-    }
+}
 
 
