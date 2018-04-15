@@ -1,9 +1,7 @@
-
 /*
  * Created by Liam Logan
  * Copyright (c) 2018. All Rights reserved
  *
- * Last Modified 12/04/18 14:16
  */
 
 package liam.dissertationproject.Algorithm;
@@ -28,7 +26,7 @@ public class PositioningAlgorithms {
      * @param algorithm      choice of several algorithms
      * @return the location of user
      */
-    public static String AlgorithmProcessor(ArrayList<AccessPointRecords> latestScanList, RadioMap RM, int algorithm) {
+    public static String ProcessAlgorithm(ArrayList<AccessPointRecords> latestScanList, RadioMap RM, int algorithm) {
 
         int i, j;
 
@@ -49,7 +47,7 @@ public class PositioningAlgorithms {
                     break;
                 }
             }
-            // A MAC Address is missing so we place a small value, NaN value
+            // A MAC Address is missing so we replace with NaN from algorithm parameters
             if (j == latestScanList.size()) {
                 ObservedRSS.add(String.valueOf(NaNValue));
                 ++notFoundCounter;
@@ -57,6 +55,7 @@ public class PositioningAlgorithms {
         }
         if (notFoundCounter == MACAddressList.size())
             return null;
+
         // Read parameter of algorithm
         String parameter = readParameter(RM.getRadioMapFile(), algorithm);
 
@@ -71,11 +70,10 @@ public class PositioningAlgorithms {
     }
 
     /**
-     * Calculates user location based on K Nearest
-     * Neighbor (KNN) Algorithm
+     * Calculates user location based on K Nearest Neighbor (KNN) Algorithm
      *
-     * @param RM                   The radio map structure
-     * @param ObservedRSS RSS values currently observed
+     * @param RM                   radio map
+     * @param ObservedRSS          RSS values currently observed
      * @param parameter            Algorithm Specific Paramters are applied if necessary
      * @return The estimated user location
      */
@@ -166,8 +164,8 @@ public class PositioningAlgorithms {
      */
     private static String averageKCalculatedPosition(ArrayList<LocationDistance> LocationDistanceResults, int K) {
 
-        float sumX = 0.0f;
-        float sumY = 0.0f;
+        float averageXCoordinate = 0.0f;
+        float averageYCoordinate = 0.0f;
 
         String[] LocationArray = new String[2];
         float xCoordinate, yCoordinate;
@@ -185,15 +183,15 @@ public class PositioningAlgorithms {
                 return null;
             }
 
-            sumX += xCoordinate;
-            sumY += yCoordinate;
+            averageXCoordinate += xCoordinate;
+            averageYCoordinate += yCoordinate;
         }
 
         // Calculate the average
-        sumX /= minimumK;
-        sumY /= minimumK;
+        averageXCoordinate /= minimumK;
+        averageYCoordinate /= minimumK;
 
-        return sumX + " " + sumY;
+        return averageXCoordinate + " " + averageYCoordinate;
 
     }
 
@@ -227,11 +225,12 @@ public class PositioningAlgorithms {
                 /* Split fields */
                 String[] temp = line.split(":");
 
-                /* The file may be corrupted so ignore reading it */
                 if (temp.length != 2) {
                     return null;
                 }
 
+                // This fills the algorithms choosen with appropriate values from algorithm
+                // parameters
                 if (algorithm_choice == 0 && temp[0].equals("NaN")) {
                     parameter = temp[1];
                     break;

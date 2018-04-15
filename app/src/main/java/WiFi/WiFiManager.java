@@ -2,7 +2,7 @@
  * Created by Liam Logan
  * Copyright (c) 2018. All Rights reserved
  *
- * Last Modified 12/04/18 13:31
+ *
  */
 
 package WiFi;
@@ -118,7 +118,7 @@ public class WiFiManager {
         }
 
         if (samples_interval.equals("n/a") || samples_interval.equals("")) {
-            toastPrint("Samples interval not specified\nGo to Menu->Preferences->Sampling Settings", Toast.LENGTH_LONG);
+            toastPrint("Samples interval not specified\nGo to Menu->Preferences->Sampling Preferences", Toast.LENGTH_LONG);
 
             synchronized (isScanning) {
                 isScanning = false;

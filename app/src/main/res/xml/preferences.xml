@@ -10,12 +10,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="pref_screen_key">
 
-    <PreferenceCategory android:title="@string/radiomap_file_settings">
+    <PreferenceCategory android:title="@string/radiomapSetting">
 
         <Preference
-            android:key="radiomap_file"
-            android:summary="@string/radiomap_file_summary"
-            android:title="@string/radiomap_file_title" />
+            android:key="radiomap"
+            android:summary="@string/radiomapSummary"
+            android:title="@string/radiomapTitle" />
 
     </PreferenceCategory>
 

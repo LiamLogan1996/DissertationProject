@@ -6,39 +6,19 @@
   -->
 
 <resources>
-    <string name="app_name">Stirling University Tracker</string>
+    <string name="appName">Stirling University Navigator</string>
 
-    <string name="preferences">Preferences</string>
-    <string name="choose_algorithm">Algorithms</string>
+    <string name="preferences">Settings</string>
 
-    <string name="radiomap_file_settings">Radiomap Settings</string>
-    <string name="radiomap_file_title">Radiomap File</string>
-    <string name="radiomap_file_summary">The radiomap that is currently used to estimate
-		position</string>
+    <string name="radiomapSetting">Radiomap Settings</string>
+    <string name="radiomapTitle">Radiomap File</string>
+    <string name="radiomapSummary">The radiomap which is currently used to position the user</string>
 
 
     <string name="parentDir">..</string>
     <string name="homeDir">.</string>
 
-    <string name="algorithms_title">Positioning Algorithms</string>
-
-    <string name="algorithms_summary">Choose one of the following algorithms to estimate your position</string>
-
-
-    <string-array name="AlgorithmsArray">
-
-        <item>K Nearest Neighbor (KNN) Algorithm</item>
-
-    </string-array>
-
-
-    <string-array name="AlgorithmsValues">
-
-        <item>1</item>
-
-    </string-array>
-
-    <string name="splash_title"> Hello, This is your tracker here, \n I will be here to provide you assistance
+    <string name="SplashTitle"> Hello, This is your tracker here, \n I will be here to provide you assistance
                                     throughout the University.</string>
 
     <string name="Rm1"> Room 1</string>

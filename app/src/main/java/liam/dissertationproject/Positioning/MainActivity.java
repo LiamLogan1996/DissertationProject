@@ -2,7 +2,7 @@
  * Created by Liam Logan
  * Copyright (c) 2018. All Rights reserved
  *
- * Last Modified .12/04/18 16:56
+ *
  */
 
 package liam.dissertationproject.Positioning;
@@ -47,14 +47,13 @@ import java.util.Observer;
 import WiFi.Receiver;
 import WiFi.WiFiManager;
 import liam.dissertationproject.Algorithm.PositioningAlgorithms;
-import liam.dissertationproject.Algorithm.SelectPositioningAlgorithm;
 
 
 public class MainActivity extends AppCompatActivity implements OnClickListener, PopupMenu.OnMenuItemClickListener, OnSharedPreferenceChangeListener, Observer {
 
     // Preferences name for indoor and outdoor
     public static final String sharedPreferences = "IndoorPreferences";
-    private final PositionObservable trackMe = new PositionObservable();
+    private final PositionObservable positionMe = new PositionObservable();
     // The latest scan list of APs
     ArrayList<AccessPointRecords> scanList;
     // Text views to show results
@@ -97,23 +96,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         super.onCreate(savedInstanceState);
 
         // This sets the layout for the application
-        setContentView(R.layout.building_layout);
-
-        // Call to method copyAssets
-        copyAssets();
+        setContentView(R.layout.application);
 
         // This creates an object of Positioning, which is used for the
         // actual positioning of the user.
         this.position = new Positioning(this);
-        this.position.setPositionMe(this.trackMe);
+        this.position.setPositionMe(this.positionMe);
 
         // Store results from scanList into an ArrayList
         scanList = new ArrayList<AccessPointRecords>();
 
         // This section sets the textViews used to display the values
         // onto the screen
-        scanResults = (TextView) findViewById(R.id.scanResults);
-        scanResults.setText("APs: " + 0);
+
         latitudeTextView = (TextView) findViewById(R.id.latitude);
         longitudeTextView = (TextView) findViewById(R.id.longitude);
 
@@ -126,13 +121,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         // Create the Radio map
         radioMap = new RadioMap();
 
-        // Button to find user on map
-        LocateMe = (Button) findViewById(R.id.locateMe);
-        LocateMe.setOnClickListener(this);
+
 
 
         // Toogle Button to initiate starting of positioning
-        isPositioning = (ToggleButton) findViewById(R.id.trackme);
+        isPositioning = (ToggleButton) findViewById(R.id.positioning);
         isPositioning.setOnClickListener(this);
 
         /// / WiFi manager to manage scans
@@ -153,6 +146,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         PositionY.setText("Y:");
 
         Preferences.registerOnSharedPreferenceChangeListener(this);
+
+        // This will write the files to the Download Folder when the application is loaded
+        copyAssets();
+
 
         onSharedPreferenceChanged(Preferences, "image");
 
@@ -295,14 +292,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         // Enables the WiFi if is in Online Mode
         wifi.startScan(receiverWifi, "2000");
 
-        LocateMe.setText("Locate Me");
-
 
     }
 
-    /**
-     *  This method is called onCreate which installs the radioMap required into the download folder for use
-     */
+
     private void copyAssets() {
         AssetManager assetManager = getAssets();
         String[] files = null;
@@ -319,31 +312,34 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             InputStream in = null;
             OutputStream out = null;
 
-            if (filename.contains("radiomap")) {
-                try {
-                    in = assetManager.open(filename);
+            if (filename.contains("radiomap")) try {
+                in = assetManager.open(filename);
 
-                    File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
-                    File file = new File(dir, filename);
-                    Boolean isSDPresent = android.os.Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+                File file = new File(dir, filename);
+                Boolean isSDPresent = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 
-                    if(!isSDPresent){
-                        System.out.println("External Memory is not available");
-                    }
-
-                    out = new FileOutputStream(file);
-                    copyFile(in, out);
-                    in.close();
-                    in = null;
-                    out.flush();
-                    out.close();
-                    out = null;
-                } catch (IOException e) {
-                    Log.e("tag", "Failed to copy asset file: " + filename, e);
+                if (!isSDPresent) {
+                    popupMsg("External Memory is not available", "Memory", Toast.LENGTH_LONG);
                 }
+
+                out = new FileOutputStream(file);
+                copyFile(in, out);
+
+                in.close();
+                in = null;
+                out.flush();
+                out.close();
+                out = null;
+
+            } catch (IOException e) {
+                Log.e("tag", "Failed to copy asset file: " + filename, e);
             }
+
         }
+
+
     }
     private void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
@@ -353,8 +349,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
     }
 
+
+
+
     /**
-     * This is the menuOption "Destinations" which is present on the building_layout
+     * This is the menuOption "Destinations" which is present on the application
      * Each Button in the menu has a clickable option. For each option we assign it a value
      * from the destination. This makes calls to the imageZoomView class where the marker is drawn
      * regarding the coordinates to the element from the arrayList
@@ -803,14 +802,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         switch (item.getItemId()) {
             // Launch Preferences
             case R.id.Preferences:
-                Intent prefs = new Intent(this, Preferences.class);
+                Intent prefs = new Intent(this, liam.dissertationproject.Positioning.Preferences.class);
                 startActivity(prefs);
                 return true;
             // Launch Preferences to choose one of the algorithms implemented
-            case R.id.Choose_Algorithm:
-                Intent algorithm_prefs = new Intent(this, SelectPositioningAlgorithm.class);
-                startActivity(algorithm_prefs);
-                return true;
         }
         return false;
     }
@@ -830,7 +825,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         if (key.equals("image")) {
 
             try {
-                imagePath = getAssets().open("mymap.jpg");
+                imagePath = getAssets().open("CottrellBuilding.jpg");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -874,19 +869,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         switch (v.getId()) {
 
             // Positioning
-            case R.id.locateMe:
-                isPositioning.setChecked(false);
-                this.trackMe.setBoolean(false);
-                this.trackMe.notifyObservers();
-                break;
-            // Positioning
-            case R.id.trackme:
+            case R.id.positioning:
                 if (isPositioning.isChecked()) {
-                    this.trackMe.setBoolean(true);
-                    this.trackMe.notifyObservers();
+                    this.positionMe.setBoolean(true);
+                    this.positionMe.notifyObservers();
                 } else {
-                    this.trackMe.setBoolean(false);
-                    this.trackMe.notifyObservers();
+                    this.positionMe.setBoolean(false);
+                    this.positionMe.notifyObservers();
                 }
                 break;
         }
@@ -903,40 +892,23 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     }
 
     /**
-     * Starts the appropriate positioning algorithm
+     * Initiates positioning algorithm
      */
-    private boolean FindMe_Method() {
+    private boolean startAlgorithm() {
 
-        String algorithmSelection = Preferences.getString("PositioningAlgorithms", "1").trim();
-        String radiomapFile = Preferences.getString("radiomap_file", "").trim();
+        // This states the algorithm for which the algorithm will use which is the KNN Algorithm
+        // This is important as the app need to knows that since it has been provided with this, it can
+        // initiate process
+        String algorithm = Preferences.getString("PositioningAlgorithms", "1").trim();
 
+        // This makes sure that radiomap is retrieved otherwise not calculations will be made as we cant
+        // locate the user
+        String radiomapFile = Preferences.getString("radiomap", "").trim();
 
-        // Check that radioMap file is readable
-        if (radiomapFile.equals("")) {
-            popupMsg("Radiomap file not specified\nGo to Menu::Preferences::Radiomap Settings::Radiomap File", "User Error", Toast.LENGTH_LONG);
-            return false;
-
-        } else if ((!(new File(radiomapFile).canRead()))) {
-            popupMsg("Radiomap file is not readable\nGo to Menu::Preferences::Radiomap Settings::Radiomap File", "User Error", Toast.LENGTH_LONG);
-            return false;
-        }
-
-        // Check algorithm selection
-        if (algorithmSelection.equals("") || Integer.parseInt(algorithmSelection) < 1 || Integer.parseInt(algorithmSelection) > 6) {
-            popupMsg("Unable to find the location\nSpecify Algorithm", "User Error", Toast.LENGTH_LONG);
-            return false;
-        }
-
-        // Set in progress (true)
-        synchronized (inProgress) {
-            if (inProgress == true)
-                return false;
-            inProgress = true;
-        }
 
         // Error reading Radio Map
-        if (!radioMap.ConstructRadioMap(new File(radiomapFile))) {
-            popupMsg("Error while reading radio map.\nDownload new Radio Map and try again", "User Error", Toast.LENGTH_LONG);
+        if (!radioMap.GenerateRadioMap(new File(radiomapFile))) {
+            popupMsg("Error Reading Radio Map", "User Error", Toast.LENGTH_LONG);
 
             // Unset in progress (false)
             synchronized (inProgress) {
@@ -946,19 +918,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             return false;
         }
 
-        if (scanList.isEmpty()) {
-            popupMsg("No Access Point Received.\nWait for a scan first and try again.", "Warning", Toast.LENGTH_LONG);
-
-            // Unset in progress (false)
-            synchronized (inProgress) {
-                inProgress = false;
-            }
-
-            return false;
-        }
-
-        if (!calculatePosition(Integer.parseInt(algorithmSelection))) {
-            popupMsg("Can't find location. Check that radio map file refers to the same area.", "Error", Toast.LENGTH_LONG);
+        if (!calculatePosition(Integer.parseInt(algorithm))) {
+            popupMsg("Can't find location", "Application Error", Toast.LENGTH_LONG);
 
             // Unset in progress (false)
             synchronized (inProgress) {
@@ -979,7 +940,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     /**
      * @return return the height and width from config file for map
-     * <p>
+     *
      * This information will be returned to the isPositioning class
      */
     private boolean ReadWidthHeigthFromFile() {
@@ -992,7 +953,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         // Get the config file from assets
         InputStream input = null;
         try {
-            input = assetManager.open("mymap.config");
+            input = assetManager.open("mapDimensions.config");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1072,7 +1033,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
      */
     private boolean calculatePosition(int algorithm) {
 
-        String calculatedLocation = PositioningAlgorithms.AlgorithmProcessor(scanList, radioMap, algorithm);
+        String calculatedLocation = PositioningAlgorithms.ProcessAlgorithm(scanList, radioMap, algorithm);
 
         if (calculatedLocation == null) {
             return false;
@@ -1090,8 +1051,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         try {
             if (coordinates[0].equals("NaN") || coordinates[1].equals("NaN"))
                 return false;
-            latitudeTextView.setText(myFormatter.format(Float.parseFloat(coordinates[0])) + "");
-            longitudeTextView.setText(myFormatter.format(Float.parseFloat(coordinates[1])) + "");
+            latitudeTextView.setText(new StringBuilder().append(myFormatter.format(Float.parseFloat(coordinates[0]))).append("").toString());
+            longitudeTextView.setText(new StringBuilder().append(myFormatter.format(Float.parseFloat(coordinates[1]))).append("").toString());
         } catch (Exception e) {
             return false;
         }
@@ -1199,7 +1160,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 // This is the call to get the results. The results are shown on screen of the number
                 // of access points which have been detected.
                 List<ScanResult> AccessPointList = wifi.getScanResults();
-                scanResults.setText("APs: " + AccessPointList.size());
 
                 // Set in progress (true)
                 synchronized (inProgress) {
@@ -1207,8 +1167,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                         return;
                     inProgress = true;
                 }
-
-
                 scanList.clear();
                 AccessPointRecords APR = null;
 
@@ -1225,11 +1183,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     inProgress = false;
                 }
 
-                if (trackMe.get()) {
-                    if (!FindMe_Method()) {
+                if (positionMe.get()) {
+                    if (!startAlgorithm()) {
                         isPositioning.setChecked(false);
-                        trackMe.setBoolean(false);
-                        trackMe.notifyObservers();
+                        positionMe.setBoolean(false);
+                        positionMe.notifyObservers();
                     }
                 }
 

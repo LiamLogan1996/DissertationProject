@@ -2,7 +2,7 @@
  * Created by Liam Logan
  * Copyright (c) 2018. All Rights reserved
  *
- * Last Modified .12/04/18 14:16
+ *
  */
 
 package liam.dissertationproject.Positioning;
@@ -41,7 +41,7 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
         // Custom button to choose folder
 
         // Custom button to choose radio map file to use for positioning
-        getPreferenceManager().findPreference("radiomap_file").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        getPreferenceManager().findPreference("radiomap").setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -76,7 +76,7 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
                     Uri selectedFile = data.getData();
                     String file = selectedFile.toString();
                     SharedPreferences.Editor editor = customSharedPreference.edit();
-                    editor.putString("radiomap_file", file);
+                    editor.putString("radiomap", file);
                     editor.commit();
                 }
                 break;

@@ -9,7 +9,4 @@
     <item
         android:id="@+id/Preferences"
         android:title="@string/preferences"></item>
-    <item
-        android:id="@+id/Choose_Algorithm"
-        android:title="@string/choose_algorithm"></item>
 </menu>

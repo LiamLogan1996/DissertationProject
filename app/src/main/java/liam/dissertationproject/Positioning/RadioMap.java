@@ -2,7 +2,7 @@
  * Created by Liam Logan
  * Copyright (c) 2018. All Rights reserved
  *
- * Last Modified .12/04/18 13:50
+ *
  */
 
 package liam.dissertationproject.Positioning;
@@ -69,7 +69,7 @@ public class RadioMap {
      * @param inFile the radio map file to read
      * @return true if radio map constructed successfully, otherwise false
      */
-    public boolean ConstructRadioMap(File inFile) {
+    public boolean GenerateRadioMap(File inFile) {
 
         if (!inFile.exists() || !inFile.canRead()) {
             return false;

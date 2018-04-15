@@ -12,7 +12,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="32dp"
         android:background="@color/lightgrey"
         android:gravity="top">
 
@@ -24,6 +24,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="75dp"
+            android:layout_marginTop="5dp"
             android:background="@color/lightgrey"
             android:gravity="center"
             android:text="X: "
@@ -38,6 +39,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="95dp"
             android:background="@color/lightgrey"
+            android:layout_marginTop="5dp"
             android:inputType="numberDecimal"
             android:maxLength="10"
             android:text="000.00"
@@ -52,6 +54,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginEnd="127dp"
             android:background="@color/lightgrey"
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="Y: "
             android:textColor="#000000" />
@@ -64,20 +67,12 @@
             android:layout_alignParentTop="true"
             android:layout_marginEnd="84dp"
             android:background="@color/lightgrey"
+            android:layout_marginTop="5dp"
             android:inputType="numberDecimal"
             android:maxLength="10"
             android:text="00.00"
             android:textColor="#000000" />
 
-
-        <TextView
-            android:id="@+id/scanResults"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="1dp"
-            android:text="AP:"
-            android:textColor="#000000" />
 
     </RelativeLayout>
 
@@ -103,33 +98,23 @@
         </RelativeLayout>
 
 
-        <Button
-            android:id="@+id/locateMe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/Destination"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/Destination"
-            android:text="Locate Me" />
-
         <ToggleButton
-            android:id="@+id/trackme"
+            android:id="@+id/positioning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="0dp"
-            android:layout_toEndOf="@+id/Destination"
-            android:layout_toStartOf="@+id/locateMe"
-            android:textOff="Track Me Off"
-            android:textOn="Track Me On" />
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="38dp"
+            android:textOff="Positioning Off"
+            android:textOn="Positioning On" />
 
         <Button
             android:id="@+id/Destination"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="38dp"
             android:onClick="showPopUp"
             android:text="Destinations" />
 

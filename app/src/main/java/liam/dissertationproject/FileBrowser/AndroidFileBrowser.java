@@ -103,7 +103,7 @@ public class AndroidFileBrowser extends ListActivity implements OnClickListener 
     public void onCreate(Bundle icicle) {
 
         super.onCreate(icicle);
-        setContentView(R.layout.main_choose_file_or_directory);
+        setContentView(R.layout.file_chooser);
 
         pwd = (TextView) findViewById(R.id.pwd);
         Button button_select = (Button) findViewById(R.id.select_file_folder);
@@ -187,6 +187,7 @@ public class AndroidFileBrowser extends ListActivity implements OnClickListener 
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
+        // TODO Auto-generated method stub
         File file = new File(directoryEntries.get(position));
 
         if (file.isDirectory()) {
@@ -274,10 +275,12 @@ public class AndroidFileBrowser extends ListActivity implements OnClickListener 
 
             super(context, textViewResourceId, objects);
             myList = objects;
+            // TODO Auto-generated constructor stub
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            // TODO Auto-generated method stub
             // super.getView(position, convertView, parent);
             View row = convertView;
             // Check If Row Is Null

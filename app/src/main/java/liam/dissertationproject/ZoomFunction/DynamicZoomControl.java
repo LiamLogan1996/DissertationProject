@@ -42,7 +42,7 @@ public class DynamicZoomControl implements Observer {
     /**
      * Maximum zoom level limit
      */
-    private static final float MAX_ZOOM = 16;
+    private static final float MAX_ZOOM = 8;
 
     /**
      * Velocity tolerance for calculating if dynamic state is resting
@@ -57,7 +57,7 @@ public class DynamicZoomControl implements Observer {
     /**
      * Target FPS when animating behavior such as fling and snap to
      */
-    private static final int FPS = 50;
+    private static final int FPS = 60;
 
     /**
      * Factor applied to pan motion outside of pan snap limits.

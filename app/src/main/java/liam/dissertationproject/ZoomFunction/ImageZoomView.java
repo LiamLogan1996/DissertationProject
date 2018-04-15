@@ -4,6 +4,9 @@
  *
  * Last Modified 12/04/18 13:50
  *
+ *
+ *
+ *
  * Copyright 2010 Sony Ericsson Mobile Communications AB
  * Copyright 2012 Nadeem Hasan <nhasan@nadmm.com>
  *
@@ -37,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import liam.dissertationproject.Positioning.BitmapCoordinates;
 import liam.dissertationproject.Positioning.PositionObservable;
 import liam.dissertationproject.Positioning.R;
 
@@ -246,7 +250,8 @@ public class ImageZoomView extends View implements Observer {
                         // This ensures thats bitmap which is drawn sits within the dimensions of the map and also the source square.
                         if (temp.x != -1 && temp.y != -1 && temp.x >= rectSrc.left - 5 && temp.x <= rectSrc.right + 5 && temp.y >= rectSrc.top - 5
                                 && temp.y <= rectSrc.bottom + 5) {
-                            canvas.drawBitmap(trackerMarker, (temp.x - rectSrc.left) / XDimensions + rectDst.left, (temp.y - rectSrc.top) / YDimensions + rectDst.top - 10, p);
+                            //canvas.drawCircle((temp.x - rectSrc.left) / XDimensions + rectDst.left, (temp.y - rectSrc.top) / YDimensions + rectDst.top, radius, this.p);
+                            canvas.drawBitmap(trackerMarker, (temp.x - rectSrc.left) / XDimensions + rectDst.left -5, (temp.y - rectSrc.top) / YDimensions + rectDst.top -10, p);
                         }
                     }
                 }

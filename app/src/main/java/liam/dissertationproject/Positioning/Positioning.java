@@ -2,7 +2,7 @@
  * Created by Liam Logan
  * Copyright (c) 2018. All Rights reserved
  *
- * Last Modified .12/04/18 13:50
+ *
  */
 
 package liam.dissertationproject.Positioning;
@@ -14,11 +14,9 @@ import java.io.InputStream;
 import java.util.Observable;
 import java.util.Observer;
 
-import liam.dissertationproject.ZoomFunction.BitmapCoordinates;
 import liam.dissertationproject.ZoomFunction.DynamicZoomControl;
 import liam.dissertationproject.ZoomFunction.ImageZoomView;
-import liam.dissertationproject.ZoomFunction.LongPressZoomListener;
-
+import liam.dissertationproject.ZoomFunction.PinchZoomListener;
 
 public class Positioning implements Observer {
 
@@ -43,15 +41,15 @@ public class Positioning implements Observer {
     /**
      * On touch listener for zoom view
      */
-    private LongPressZoomListener zoomListener;
+    private PinchZoomListener zoomListener;
 
     private PositionObservable positionMe;
 
     public Positioning(MainActivity fm) {
 
-        // Set Zooming and Panning Settings
+        // Set Zooming and Panning Preferences
         zoomControl = new DynamicZoomControl();
-        zoomListener = new LongPressZoomListener(fm.getApplicationContext());
+        zoomListener = new PinchZoomListener(fm.getApplicationContext());
         zoomListener.setZoomControl(zoomControl);
         zoomView = (ImageZoomView) fm.findViewById(R.id.zoomview);
         zoomView.setZoomState(zoomControl.getZoomState());
@@ -63,6 +61,12 @@ public class Positioning implements Observer {
 
     }
 
+
+    /**
+     *
+     * @param positionMe This keeps the coordinates up to data. By passing them to the imageZoomView class
+     *                   we can continue to update the drawn lcoation on the screen.
+     */
     public void setPositionMe(PositionObservable positionMe) {
         zoomView.setPosition(positionMe);
 
@@ -73,7 +77,14 @@ public class Positioning implements Observer {
         this.positionMe.addObserver(this);
     }
 
-    public boolean setFloorPlan(InputStream imagePath, String building_width, String building_height) {
+    /**
+     *
+     * @param imagePath         ImagePath for file to be drawn onto the screen
+     * @param floorPlanWidth    Stores the width from the dimension file
+     * @param floorPlanHeight   Stores the height from the dimension file
+     * @return
+     */
+    public boolean setFloorPlan(InputStream imagePath, String floorPlanWidth, String floorPlanHeight) {
 
 
         if (imagePath == null || imagePath.equals(""))
@@ -93,8 +104,8 @@ public class Positioning implements Observer {
 
             this.imagePath = imagePath;
             this.bitmap = tempBitmap;
-            this.floorPlanWidth = building_width;
-            this.floorPlanHeight = building_height;
+            this.floorPlanWidth = floorPlanWidth;
+            this.floorPlanHeight = floorPlanHeight;
             zoomView.setImage(this.bitmap);
             resetZoomState();
             resetLocation();
@@ -104,12 +115,18 @@ public class Positioning implements Observer {
         return true;
     }
 
-    public boolean positionOnMap(String Geolocation) {
+    /**
+     *
+     * @param EstimateLocation This stores the coordinates which are passed from the calculatePosition Method
+     *
+     * @return Return True if there are valid coordinates
+     */
+    public boolean positionOnMap(String EstimateLocation) {
 
-        if (Geolocation == null || bitmap == null || floorPlanWidth == null || floorPlanHeight == null)
+        if (EstimateLocation == null || bitmap == null || floorPlanWidth == null || floorPlanHeight == null)
             return false;
 
-        String coordinates[] = Geolocation.replace(", ", " ").split(" ");
+        String coordinates[] = EstimateLocation.replace(", ", " ").split(" ");
         float x, y;
         float bitmapWidth;
         float bitmapHeight;
@@ -136,6 +153,9 @@ public class Positioning implements Observer {
         return true;
     }
 
+    /**
+     *  This destroys the drawing images on the bitmap which essentially clears everything.
+     */
     protected void onDestroy() {
 
         if (bitmap != null)
@@ -158,10 +178,14 @@ public class Positioning implements Observer {
     }
 
 
+    /**
+     *  Reset initial coordinates to 1,1 when application begins or tracking = false.
+     */
     private void resetLocation() {
         curPosition.setPositionCoordinates(-1, -1);
         curPosition.notifyObservers();
     }
+
 
     @Override
     public void update(Observable observable, Object data) {
@@ -172,8 +196,5 @@ public class Positioning implements Observer {
 
     }
 
-    public boolean okBuildingSettings() {
-        return this.bitmap != null && this.floorPlanHeight != null && this.floorPlanWidth != null;
-    }
 
 }
