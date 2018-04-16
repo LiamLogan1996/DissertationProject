@@ -25,7 +25,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,37 +52,50 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     // Preferences name for indoor and outdoor
     public static final String sharedPreferences = "IndoorPreferences";
+
     private final PositionObservable positionMe = new PositionObservable();
+
     // The latest scan list of APs
     ArrayList<AccessPointRecords> scanList;
     // Text views to show results
-    private TextView title;
-    // TextView showing the current scan results
-    private TextView scanResults;
+
+    //Text Views for Coordinates
     private TextView PositionX;
     private TextView PositionY;
     private TextView latitudeTextView;
     private TextView longitudeTextView;
+
+    // Number format which formats decimal numbers
     private DecimalFormat myFormatter = new DecimalFormat("###0.00");
-    // Button for positioning
-    private Button LocateMe;
-    // Button for isPositioning
+
+    // Toogle button to initiate Positioning Process
     private ToggleButton isPositioning;
+
     // Flag to show if there is an ongoing progress
     private Boolean inProgress;
+
     // The radioMap read
     private RadioMap radioMap;
+
     // WiFi manager
     private WiFiManager wifi;
+
     // WiFi Receiver
     private Receiver receiverWifi;
+
     private SharedPreferences Preferences;
+
+    //InputStream to read bitmap image path
     private InputStream imagePath;
+
     // Image width and height in meters
     private String floorPlanWidth;
     private String floorPlanHeight;
+
+    //Object reference to positioning class
     private Positioning position;
 
+    // ArrayList which stores destinations in
     private ArrayList<Destination> destinationList = new ArrayList<>();
 
 
@@ -108,31 +120,26 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         // This section sets the textViews used to display the values
         // onto the screen
+        latitudeTextView = (TextView) findViewById(R.id.xPositionCoordinate);
+        longitudeTextView = (TextView) findViewById(R.id.yPositionCoordinate);
 
-        latitudeTextView = (TextView) findViewById(R.id.latitude);
-        longitudeTextView = (TextView) findViewById(R.id.longitude);
 
-
-        PositionX = (TextView) findViewById(R.id.LatTitle);
-        PositionY = (TextView) findViewById(R.id.LonTitle);
+        PositionX = (TextView) findViewById(R.id.xCoordinate);
+        PositionY = (TextView) findViewById(R.id.yCoordinate);
 
         inProgress = Boolean.FALSE;
 
         // Create the Radio map
         radioMap = new RadioMap();
 
-
-
-
         // Toogle Button to initiate starting of positioning
         isPositioning = (ToggleButton) findViewById(R.id.positioning);
         isPositioning.setOnClickListener(this);
 
-        /// / WiFi manager to manage scans
+        // WiFi manager to manage scans
         wifi = new WiFiManager(getApplicationContext());
-        wifi.setScanResultsTextView(scanResults);
 
-        // Create new receiver to get broadcasts
+        // Create new receiver to get broadcasts for Scan Results
         receiverWifi = new WifiManager();
 
         // Configure preferences
@@ -142,13 +149,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         PreferenceManager.setDefaultValues(this, sharedPreferences, MODE_PRIVATE, R.xml.preferences, true);
         Preferences = MainActivity.this.getSharedPreferences(sharedPreferences, MODE_PRIVATE);
 
+        // Sets Initial Values to be displayed.
         PositionX.setText("X:");
         PositionY.setText("Y:");
 
+        // Registers callback to be involed when a change happens to a preference
         Preferences.registerOnSharedPreferenceChangeListener(this);
 
         // This will write the files to the Download Folder when the application is loaded
-        copyAssets();
+        moveRadioMapToDownloads();
 
 
         onSharedPreferenceChanged(Preferences, "image");
@@ -280,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         destinationList.add(Room87);
         destinationList.add(Room91);
 
-
+        // Sets the viability of the TextViews on the XML screen Layouts
         latitudeTextView.setVisibility(View.VISIBLE);
         longitudeTextView.setVisibility(View.VISIBLE);
         PositionX.setVisibility(View.VISIBLE);
@@ -292,11 +301,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         // Enables the WiFi if is in Online Mode
         wifi.startScan(receiverWifi, "2000");
 
-
     }
 
 
-    private void copyAssets() {
+    /**
+     *  This method deals with the writing of the file from the asset folder to the Downloads folder
+     *  on the smartphone device
+     */
+    private void moveRadioMapToDownloads() {
+
+        // Checks if it is able to access assets folder
         AssetManager assetManager = getAssets();
         String[] files = null;
         try {
@@ -312,11 +326,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             InputStream in = null;
             OutputStream out = null;
 
+            // If filename contains Radiomap write to downloads folder
             if (filename.contains("radiomap")) try {
                 in = assetManager.open(filename);
 
                 File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
+                // Checks if SD is mounted
                 File file = new File(dir, filename);
                 Boolean isSDPresent = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 
@@ -324,6 +340,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     popupMsg("External Memory is not available", "Memory", Toast.LENGTH_LONG);
                 }
 
+                // This deals with the writing of data from the file
                 out = new FileOutputStream(file);
                 copyFile(in, out);
 
@@ -341,6 +358,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
 
     }
+
+    /**
+     *
+     * @param in    reads the characters until end of stream
+     * @param out   writes sub sequence of the byte array
+     * @throws IOException
+     */
     private void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;
@@ -348,9 +372,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             out.write(buffer, 0, read);
         }
     }
-
-
-
 
     /**
      * This is the menuOption "Destinations" which is present on the application
@@ -805,7 +826,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 Intent prefs = new Intent(this, liam.dissertationproject.Positioning.Preferences.class);
                 startActivity(prefs);
                 return true;
-            // Launch Preferences to choose one of the algorithms implemented
         }
         return false;
     }
@@ -813,7 +833,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     /**
      * This is the method which deals with callback to be invoked when a shared preference is changed
      *
-     * @param prefs The sharedPreferences that recieved the change
+     * @param prefs The sharedPreferences that received the change
      * @param key   String: The key of the preference that was changed, added or removed
      */
     @Override
@@ -822,6 +842,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         if (key == null)
             return;
 
+        // Key for preference of loading image into the application
         if (key.equals("image")) {
 
             try {
@@ -829,8 +850,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //	imagePath = The imagePath should be the path to the file from the assest, which is then
-            // called into FMOB and used a the image.
 
             if (imagePath.equals("")) {
                 return;
@@ -839,8 +858,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             floorPlanWidth = null;
             floorPlanHeight = null;
 
+            // Checks to ensure it can read values from dimensions
             if (!ReadWidthHeigthFromFile()) {
-                popupMsg("Corrupted image configuration file.\nPlease set a different floor plan or previous floor plan will be used if available.",
+                popupMsg("Corrupted image configuration file",
                         "Error", Toast.LENGTH_LONG);
                 imagePath = null;
                 floorPlanWidth = null;
@@ -853,6 +873,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 floorPlanWidth = null;
                 floorPlanHeight = null;
             } else {
+
+                //Set initial values to be displayed on screen - 0 because no position
                 latitudeTextView.setText("000.00");
                 longitudeTextView.setText("00.00");
             }
@@ -867,7 +889,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             // Positioning
             case R.id.positioning:
                 if (isPositioning.isChecked()) {
@@ -882,12 +903,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     }
 
+
+    /**
+     *  Pop up menu to display all the destinations
+     *
+     * @param v view for menu
+     */
     public void showPopUp(View v) {
 
         PopupMenu routeMenu = new PopupMenu(this, v);
         routeMenu.setOnMenuItemClickListener(MainActivity.this);
         MenuInflater inflater = routeMenu.getMenuInflater();
-        inflater.inflate(R.menu.route_menu, routeMenu.getMenu());
+        inflater.inflate(R.menu.destination_menu, routeMenu.getMenu());
         routeMenu.show();
     }
 
@@ -905,7 +932,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         // locate the user
         String radiomapFile = Preferences.getString("radiomap", "").trim();
 
-
         // Error reading Radio Map
         if (!radioMap.GenerateRadioMap(new File(radiomapFile))) {
             popupMsg("Error Reading Radio Map", "User Error", Toast.LENGTH_LONG);
@@ -918,6 +944,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             return false;
         }
 
+        // If cant calculate position due to algorithm not being selected display error. Will never
+        // occur as algorithm is always specified.
         if (!calculatePosition(Integer.parseInt(algorithm))) {
             popupMsg("Can't find location", "Application Error", Toast.LENGTH_LONG);
 
@@ -939,16 +967,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     }
 
     /**
-     * @return return the height and width from config file for map
+     * @return return the floor plan height and width from dimensions
      *
-     * This information will be returned to the isPositioning class
      */
     private boolean ReadWidthHeigthFromFile() {
 
 
         //AssetManager allows files to be retrieved from asset folder in Android Studio
         AssetManager assetManager = getAssets();
-
 
         // Get the config file from assets
         InputStream input = null;
@@ -958,12 +984,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             e.printStackTrace();
         }
 
-
         // Store the heigh and width into one value then split to get two values
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         String line = null;
         int i = 0;
-
 
         try {
 
@@ -986,9 +1010,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     floorPlanWidth = temp[1];
                 else
                     floorPlanHeight = temp[1];
-
                 ++i;
-
             }
         } catch (Exception e) {
             return false;
@@ -1004,6 +1026,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
      */
     private boolean buildingDimensions(String floorPlanWidth, String floorPlanHeight) {
 
+        //  These conditions check to ensure that the dimensions are valid to be used within the app
         if (floorPlanHeight.equals("")) {
             popupMsg("Corrupted image configuration file", "User Error", Toast.LENGTH_LONG);
             return false;
@@ -1057,7 +1080,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             return false;
         }
 
-
         //Return coordinates and call them from position class
         position.positionOnMap(calculatedLocation);
 
@@ -1070,14 +1092,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
      *
      * @param msg     Message to be displayed
      * @param title   Title of Message
-     * @param imageID Image to be displayed with message
+     * @param toastLength toastLength
      */
-    private void popupMsg(String msg, String title, int imageID) {
+    private void popupMsg(String msg, String title, int toastLength) {
 
         AlertDialog.Builder alertBox = new AlertDialog.Builder(this);
         alertBox.setTitle(title);
         alertBox.setMessage(msg);
-        alertBox.setIcon(imageID);
+        alertBox.setIcon(toastLength);
 
         alertBox.setNeutralButton("Hide", new DialogInterface.OnClickListener() {
             @Override
@@ -1109,9 +1131,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         });
         AlertDialog alert = builder.create();
         alert.show();
-
-        super.onBackPressed();
-        this.finish();
 
     }
 
@@ -1183,6 +1202,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     inProgress = false;
                 }
 
+                // This checks that both the radio map and algorithm are loaded into the system
+                // before activation of the positioning can occur.
                 if (positionMe.get()) {
                     if (!startAlgorithm()) {
                         isPositioning.setChecked(false);
@@ -1194,8 +1215,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             } catch (RuntimeException e) {
                 return;
             }
-
         }
-
     }
 }

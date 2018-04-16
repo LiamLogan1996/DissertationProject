@@ -11,15 +11,22 @@ import java.util.Observable;
 
 public class PositionObservable extends Observable {
 
-    private boolean isTracking;
+    /**
+     *  Boolean to determine if application should position the user or not
+     */
+    private boolean isPositioning;
 
     public boolean get() {
-        return isTracking;
+        return isPositioning;
     }
 
-    public void setBoolean(boolean track) {
+    /**
+     *
+     * @param position Allocates the boolean object to represent the value position
+     */
+    public void setBoolean(boolean position) {
 
-        isTracking = track;
+        isPositioning = position;
         setChanged();
     }
 }

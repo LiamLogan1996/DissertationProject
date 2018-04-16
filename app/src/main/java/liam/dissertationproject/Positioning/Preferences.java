@@ -2,7 +2,6 @@
  * Created by Liam Logan
  * Copyright (c) 2018. All Rights reserved
  *
- *
  */
 
 package liam.dissertationproject.Positioning;
@@ -16,12 +15,14 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 
+import java.util.Objects;
+
 import liam.dissertationproject.FileBrowser.AndroidFileBrowser;
 
 
 public class Preferences extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final int SELECT_FILE = 9;
+    private static final int FILE = 1;
 
     /**
      * Called when the activity is first created.
@@ -38,30 +39,35 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
 
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-        // Custom button to choose folder
-
-        // Custom button to choose radio map file to use for positioning
-        getPreferenceManager().findPreference("radiomap").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        // Custom button to choose radio map file to useD for positioning
+        Objects.requireNonNull(getPreferenceManager().findPreference("radiomap")).setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
             @Override
+            /**
+             *  The preferenceClick uses bundles which is used to pass data between activities
+             *  In this instance, we are communicating with the AndroidFileBrowser class as
+             *  the application has to obtain the radio map file
+             */
             public boolean onPreferenceClick(Preference preference) {
 
-                Intent i = new Intent(getBaseContext(), AndroidFileBrowser.class);
+                Intent intent = new Intent(getBaseContext(), AndroidFileBrowser.class);
 
-                Bundle extras = new Bundle();
-                // Send flag to browse for folder false, it is a file selection.
-                extras.putInt("to_Browse", 2);
+                Bundle dataBundle = new Bundle();
+                dataBundle.putInt("Browse", 1);
+                intent.putExtras(dataBundle);
 
-                i.putExtras(extras);
-
-                startActivityForResult(i, SELECT_FILE);
+                startActivityForResult(intent, FILE);
                 return true;
             }
         });
-
     }
 
     @Override
+    /**
+     *  The intent returned by the file provides a content URI that identified
+     *  the file which has been selected by the user
+     *
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -69,19 +75,14 @@ public class Preferences extends PreferenceActivity implements SharedPreferences
 
         customSharedPreference = getSharedPreferences(MainActivity.sharedPreferences, MODE_PRIVATE);
 
-        switch (requestCode) {
-
-            case SELECT_FILE:
                 if (resultCode == Activity.RESULT_OK) {
                     Uri selectedFile = data.getData();
+                    assert selectedFile != null;
                     String file = selectedFile.toString();
                     SharedPreferences.Editor editor = customSharedPreference.edit();
                     editor.putString("radiomap", file);
-                    editor.commit();
+                    editor.apply();
                 }
-                break;
-        }
-
     }
 
     @Override

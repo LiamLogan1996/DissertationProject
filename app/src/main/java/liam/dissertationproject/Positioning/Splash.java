@@ -27,17 +27,23 @@ public class Splash extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         progressBar = (ProgressBar) findViewById(R.id.splash_progress);
 
+        /**
+         *  The runnable interface allows us to implement multi-threading other than
+         *  extending the Thread class. In the run class we carry out the progressBar Function,
+         *  once execute, the activity is changed to the start menu.
+         */
         new Thread(new Runnable() {
             @Override
             public void run() {
-                doWork();
+                progressBar();
                 startApp();
                 finish();
             }
         }).start();
     }
 
-    private void doWork() {
+    // Builds up progressBar when loading up splash page
+    private void progressBar() {
         while (progressStatus < 100) {
             progressStatus += 10;
             progressBar.setProgress(progressStatus);
@@ -51,6 +57,7 @@ public class Splash extends AppCompatActivity {
         }
     }
 
+    // This starts a new activity once the thread time has run out.
     private void startApp() {
         Intent intent = new Intent(Splash.this, StartMenu.class);
         startActivity(intent);

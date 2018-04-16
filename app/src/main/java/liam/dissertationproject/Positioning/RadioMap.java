@@ -2,7 +2,6 @@
  * Created by Liam Logan
  * Copyright (c) 2018. All Rights reserved
  *
- *
  */
 
 package liam.dissertationproject.Positioning;
@@ -11,77 +10,73 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class RadioMap {
 
     private File RadioMapFile = null;
-    private ArrayList<String> MacAdressList = null;
-    private HashMap<String, ArrayList<String>> LocationRSS = null;
-    private ArrayList<String> OrderList = null;
+    private ArrayList<String> MACAddress = null;
+    private HashMap<String, ArrayList<String>> LocationRSSPairs = null;
+    private ArrayList<String> locationOrderList = null;
 
     public RadioMap() {
         super();
-        MacAdressList = new ArrayList<String>();
-        LocationRSS = new HashMap<String, ArrayList<String>>();
-        OrderList = new ArrayList<String>();
+        MACAddress = new ArrayList<String>();
+        LocationRSSPairs = new HashMap<String, ArrayList<String>>();
+        locationOrderList = new ArrayList<String>();
     }
 
     /**
-     * Getter of MAC Address list in file order
+     * Getter of MAC Address
      *
      * @return the list of MAC Addresses
      */
-    public ArrayList<String> getMacAdressList() {
-        return MacAdressList;
+    public ArrayList<String> getMACAddress() {
+        return MACAddress;
     }
 
+
     /**
-     * Getter of HashMap Location-RSS Values list in no particular order
+     * Getter of HashMap Location-RSS Values list
      *
      * @return the HashMap Location-RSS Values
      */
-    public HashMap<String, ArrayList<String>> getLocationRSS() {
-        return LocationRSS;
+    public HashMap<String, ArrayList<String>> getLocationRSSPairs() {
+        return LocationRSSPairs;
     }
 
-    /**
-     * Getter of Location list in file order
-     *
-     * @return the Location list
-     */
-    public ArrayList<String> getOrderList() {
-        return OrderList;
-    }
 
     /**
-     * Getter of radio map mean filename
+     * Gets radio map from the androidFileBrowser
      *
-     * @return the filename of radiomap mean used
+     * @return the filename of file used
      */
     public File getRadioMapFile() {
         return this.RadioMapFile;
     }
 
     /**
-     * Construct a radio map
+     * Creates the physical radio map
      *
-     * @param inFile the radio map file to read
-     * @return true if radio map constructed successfully, otherwise false
+     * @param file the radio map file to read
+     * @return true if map is successfully generated
      */
-    public boolean GenerateRadioMap(File inFile) {
+    public boolean GenerateRadioMap(File file) {
 
-        if (!inFile.exists() || !inFile.canRead()) {
+        if (!file.exists()) {
+            return false;
+        } else if (!file.canRead()) {
             return false;
         }
 
-        this.RadioMapFile = inFile;
+        this.RadioMapFile = file;
 
-        this.OrderList.clear();
-        this.MacAdressList.clear();
-        this.LocationRSS.clear();
+        this.locationOrderList.clear();
+        this.MACAddress.clear();
+        this.LocationRSSPairs.clear();
 
-        ArrayList<String> RSS_Values = null;
+        ArrayList<String> RSSValues = null;
         BufferedReader reader = null;
         String line = null;
         String[] temp = null;
@@ -89,25 +84,29 @@ public class RadioMap {
 
         try {
 
-            reader = new BufferedReader(new FileReader(inFile));
+            reader = new BufferedReader(new FileReader(file));
 
             // Read the first line
             line = reader.readLine();
 
-            // Must exists
             if (line == null)
                 return false;
 
+            // Split the , based lines and replace with a whole sentence with no comma
             line = line.replace(", ", " ");
             temp = line.split(" ");
 
-            // Must have more than 4 fields
+            // Length must be greater than 4 because only the MAC Address contains a string of longer
+            // than floor values when you remove the commas. The X and Y has a . which is not in the
+            // reading of the MAC address
             if (temp.length < 4)
                 return false;
 
             // Store all Mac Addresses
-            for (int i = 3; i < temp.length; ++i)
-                this.MacAdressList.add(temp[i]);
+            this.MACAddress.addAll(Arrays.asList(temp).subList(3, temp.length));
+
+            // This is to test if MAC Addresses are being printed
+            System.out.println("MAC Addresses" + this.getMACAddress());
 
             while ((line = reader.readLine()) != null) {
 
@@ -117,41 +116,56 @@ public class RadioMap {
                 line = line.replace(", ", " ");
                 temp = line.split(" ");
 
+                // This reads the X and Y coordinates from the list
                 if (temp.length < 3)
                     return false;
 
+                // Once split, each coord value is added to a temp arrayList
                 key = temp[0] + " " + temp[1];
 
-                RSS_Values = new ArrayList<String>();
+                System.out.println("key" + key);
 
+                // Array to Hold the RSS Values from Radio Map
+                RSSValues = new ArrayList<String>();
+
+                // Add the remaining values which are associated with Coords these values will be the
+                // RSS values
                 for (int i = 2; i < temp.length; ++i)
-                    RSS_Values.add(temp[i]);
+                    RSSValues.add(temp[i]);
 
-                // Equal number of MAC address and RSS Values
-                if (this.MacAdressList.size() != RSS_Values.size())
+                // Ensure Equal number of MAC address and RSS Values
+                if (this.MACAddress.size() != RSSValues.size())
                     return false;
 
-                this.LocationRSS.put(key, RSS_Values);
+                // Add key of coordinates(location) + RSSValues
+                this.LocationRSSPairs.put(key, RSSValues);
 
-                this.OrderList.add(key);
+                this.locationOrderList.add(key);
+
+                // Yet again to test values have been correctly read.
+                System.out.println("RSSValues" + RSSValues);
+                System.out.println("RSSValues" + LocationRSSPairs);
             }
             reader.close();
         } catch (Exception ex) {
             return false;
         }
         return true;
+
+
     }
 
+    // Coverts the data into readable formats for the application to read.
     public String toString() {
         String str = "MAC Adresses: ";
         ArrayList<String> temp;
-        for (int i = 0; i < MacAdressList.size(); ++i)
-            str += MacAdressList.get(i) + " ";
+        for (int i = 0; i < MACAddress.size(); ++i)
+            str += MACAddress.get(i) + " ";
 
         str += "\nLocations\n";
-        for (String location : LocationRSS.keySet()) {
+        for (String location : LocationRSSPairs.keySet()) {
             str += location + " ";
-            temp = LocationRSS.get(location);
+            temp = LocationRSSPairs.get(location);
             for (int i = 0; i < temp.size(); ++i)
                 str += temp.get(i) + " ";
             str += "\n";

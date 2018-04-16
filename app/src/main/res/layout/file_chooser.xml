@@ -2,7 +2,6 @@
   ~ Created by Liam Logan
   ~ Copyright (c) 2018. All Rights reserved
   ~
-  ~ Last Modified .05/04/18 18:31
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,20 +15,20 @@
         android:gravity="fill">
 
         <TextView
-            android:id="@+id/cwd"
+            android:id="@+id/currentDirectory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="5dp"
-            android:text="Current Location:" />
+            android:text="Current Path Location:" />
 
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="50dip"
-            android:layout_toRightOf="@id/cwd">
+            android:layout_toRightOf="@id/currentDirectory">
 
             <TextView
-                android:id="@+id/pwd"
+                android:id="@+id/path"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -46,10 +45,10 @@
             android:id="@android:id/list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_above="@+id/select_file_folder" />
+            android:layout_above="@+id/selectFolder" />
 
         <Button
-            android:id="@+id/select_file_folder"
+            android:id="@+id/selectFolder"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true" />

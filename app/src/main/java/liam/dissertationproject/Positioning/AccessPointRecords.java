@@ -12,7 +12,6 @@ public class AccessPointRecords {
 
     // MACAddress
     private String BSSID;
-
     //RSS Values
     private int RSS;
 

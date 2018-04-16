@@ -2,7 +2,6 @@
  * Created by Liam Logan
  * Copyright (c) 2018. All Rights reserved
  *
- *
  */
 
 package liam.dissertationproject.Positioning;

@@ -105,8 +105,8 @@ public class AndroidFileBrowser extends ListActivity implements OnClickListener 
         super.onCreate(icicle);
         setContentView(R.layout.file_chooser);
 
-        pwd = (TextView) findViewById(R.id.pwd);
-        Button button_select = (Button) findViewById(R.id.select_file_folder);
+        pwd = (TextView) findViewById(R.id.path);
+        Button button_select = (Button) findViewById(R.id.selectFolder);
         button_select.setOnClickListener(this);
 
         Bundle extras = getIntent().getExtras();
@@ -215,7 +215,7 @@ public class AndroidFileBrowser extends ListActivity implements OnClickListener 
 
         switch (v.getId()) {
 
-            case R.id.select_file_folder:
+            case R.id.selectFolder:
 
                 if (selectFolder) {
 
@@ -301,7 +301,7 @@ public class AndroidFileBrowser extends ListActivity implements OnClickListener 
             ImageView icon = (ImageView) row.findViewById(R.id.icon);
 
             if (file.isDirectory())
-                icon.setImageResource(R.drawable.directory);
+                icon.setImageResource(R.drawable.folder);
             else
                 icon.setImageResource(FindDrawable(stringFile));
             return row;

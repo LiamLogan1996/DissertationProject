@@ -45,16 +45,16 @@ public class Positioning implements Observer {
 
     private PositionObservable positionMe;
 
-    public Positioning(MainActivity fm) {
+    public Positioning(MainActivity pm) {
 
         // Set Zooming and Panning Preferences
         zoomControl = new DynamicZoomControl();
-        zoomListener = new PinchZoomListener(fm.getApplicationContext());
+        zoomListener = new PinchZoomListener(pm.getApplicationContext());
         zoomListener.setZoomControl(zoomControl);
-        zoomView = (ImageZoomView) fm.findViewById(R.id.zoomview);
+        zoomView = (ImageZoomView) pm.findViewById(R.id.zoomview);
         zoomView.setZoomState(zoomControl.getZoomState());
         zoomView.setOnTouchListener(zoomListener);
-        zoomView.setCurrentPoint(curPosition);
+        zoomView.setCurrentPosition(curPosition);
 
         zoomControl.setAspectQuotient(zoomView.getAspectQuotient());
 
@@ -65,7 +65,7 @@ public class Positioning implements Observer {
     /**
      *
      * @param positionMe This keeps the coordinates up to data. By passing them to the imageZoomView class
-     *                   we can continue to update the drawn lcoation on the screen.
+     *                   we can continue to update the drawn location on the screen.
      */
     public void setPositionMe(PositionObservable positionMe) {
         zoomView.setPosition(positionMe);

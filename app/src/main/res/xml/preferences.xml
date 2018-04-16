@@ -4,11 +4,10 @@
   ~ Created by Liam Logan
   ~ Copyright (c) 2018. All Rights reserved
   ~
-  ~ Last Modified .12/04/18 13:31
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="pref_screen_key">
+    android:key="PreferenceKey">
 
     <PreferenceCategory android:title="@string/radiomapSetting">
 

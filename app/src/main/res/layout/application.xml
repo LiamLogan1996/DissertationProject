@@ -2,7 +2,6 @@
   ~ Created by Liam Logan
   ~ Copyright (c) 2018. All Rights reserved
   ~
-  ~ Last Modified .12/04/18 14:23
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,7 +17,7 @@
 
 
         <TextView
-            android:id="@+id/LatTitle"
+            android:id="@+id/xCoordinate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -32,7 +31,7 @@
 
 
         <TextView
-            android:id="@+id/latitude"
+            android:id="@+id/xPositionCoordinate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -47,7 +46,7 @@
 
 
         <TextView
-            android:id="@+id/LonTitle"
+            android:id="@+id/yCoordinate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -60,7 +59,7 @@
             android:textColor="#000000" />
 
         <TextView
-            android:id="@+id/longitude"
+            android:id="@+id/yPositionCoordinate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

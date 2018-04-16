@@ -80,7 +80,7 @@ public class ImageZoomView extends View implements Observer {
      */
     private ZoomState state;
     // Public methods
-    private BitmapCoordinates currentPoint;
+    private BitmapCoordinates currentPosition;
     private ArrayList<PointF> recordedPoints = new ArrayList<PointF>();
     private PositionObservable positionMe;
 
@@ -95,13 +95,13 @@ public class ImageZoomView extends View implements Observer {
     /**
      * @param click the parameter passes the x and y which have been set from the Positioning class
      */
-    public void setCurrentPoint(BitmapCoordinates click) {
+    public void setCurrentPosition(BitmapCoordinates click) {
 
-        if (currentPoint != null) {
-            currentPoint.deleteObserver(this);
+        if (currentPosition != null) {
+            currentPosition.deleteObserver(this);
         }
-        currentPoint = click;
-        currentPoint.addObserver(this);
+        currentPosition = click;
+        currentPosition.addObserver(this);
 
         invalidate();
     }
@@ -191,7 +191,7 @@ public class ImageZoomView extends View implements Observer {
                 rectSrc.bottom = bitmapHeight;
             }
 
-            //From this point, This is my own work. The previous 186 line have been obtained
+            //From this point, This is my own work. The previous 193 line have been obtained
             // from the open source code which has been discussed in my dissertation project.
 
             float XDimensions = (float) (rectSrc.right - rectSrc.left) / (float) (rectDst.right - rectDst.left);
@@ -205,13 +205,15 @@ public class ImageZoomView extends View implements Observer {
             for (int i = 0; i < destinationPoints.size(); i++) {
 
                 Bitmap marker = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
+
+                // Draw the marker by getting the x and y values from the menu option clicked. This value is obtained setPoint method below
                 canvas.drawBitmap(marker, (destinationPoints.get(i).x - rectSrc.left) / XDimensions + rectDst.left, ((destinationPoints.get(i).y - rectSrc.top) / YDimensions)
                         + rectDst.top, null);
 
             }
 
-            // If the coordinates are within the bitmap dimensions then carry out drawing of positioning marker
-            if (currentPoint.get().x >= 0 && currentPoint.get().x <= bitmapWidth && currentPoint.get().y >= 0 && currentPoint.get().y <= bitmapHeight) {
+            // If the position coordinates are within the bitmap dimensions then carry out drawing of positioning marker
+            if (currentPosition.get().x >= 0 && currentPosition.get().x <= bitmapWidth && currentPosition.get().y >= 0 && currentPosition.get().y <= bitmapHeight) {
 
                 boolean previouslyMarked = false;
                 PointF point = null;
@@ -220,13 +222,13 @@ public class ImageZoomView extends View implements Observer {
                 for (int i = 0; i < recordedPoints.size(); ++i) {
                     point = recordedPoints.get(i);
 
-                    if (currentPoint.get().equals(point.x, point.y)) {
+                    if (currentPosition.get().equals(point.x, point.y)) {
                         previouslyMarked = true;
 
-                        PointF pointLast = recordedPoints.get(recordedPoints.size() - 1);
+                        PointF previousPosition = recordedPoints.get(recordedPoints.size() - 1);
 
-                        if (pointLast != point) {
-                            point = recordedPoints.set(i, pointLast);
+                        if (previousPosition != point) {
+                            point = recordedPoints.set(i, previousPosition);
                             recordedPoints.set(recordedPoints.size() - 1, point);
                         }
                         break;
@@ -235,10 +237,10 @@ public class ImageZoomView extends View implements Observer {
 
                 // Add new point to arrayList if the current point has not been previously added
                 if (!previouslyMarked)
-                    recordedPoints.add(new PointF(currentPoint.get().x, currentPoint.get().y));
+                    recordedPoints.add(new PointF(currentPosition.get().x, currentPosition.get().y));
             }
 
-            // When the boolean is set to PositionMe, draw the trackerMarker
+            // When the boolean observable is set to true, the observers are notified and the marker is drawn
             for (int i = 0; i < recordedPoints.size(); ++i) {
 
                 if (i == recordedPoints.size() - 1) {
@@ -247,11 +249,12 @@ public class ImageZoomView extends View implements Observer {
 
                         PointF temp = recordedPoints.get(i);
 
-                        // This ensures thats bitmap which is drawn sits within the dimensions of the map and also the source square.
-                        if (temp.x != -1 && temp.y != -1 && temp.x >= rectSrc.left - 5 && temp.x <= rectSrc.right + 5 && temp.y >= rectSrc.top - 5
-                                && temp.y <= rectSrc.bottom + 5) {
-                            //canvas.drawCircle((temp.x - rectSrc.left) / XDimensions + rectDst.left, (temp.y - rectSrc.top) / YDimensions + rectDst.top, radius, this.p);
-                            canvas.drawBitmap(trackerMarker, (temp.x - rectSrc.left) / XDimensions + rectDst.left -5, (temp.y - rectSrc.top) / YDimensions + rectDst.top -10, p);
+                        // This marker is placed at the x and y coords which sits within the dimension of the map and source square. Due to pixel errors,
+                        //adjustments to the markers position can be to ensure that it fits within the required spacing on the maps corridors for example.
+                        if (temp.x != -1 && temp.y != -1 && temp.x >= rectSrc.left - 5 && temp.x <=
+                                rectSrc.right + 5 && temp.y >= rectSrc.top - 5  && temp.y <= rectSrc.bottom + 5) {
+                            canvas.drawBitmap(trackerMarker, (temp.x - rectSrc.left) / XDimensions + rectDst.left -5,
+                                    (temp.y - rectSrc.top) / YDimensions + rectDst.top -10, p);
                         }
                     }
                 }
@@ -260,7 +263,7 @@ public class ImageZoomView extends View implements Observer {
     }
 
 
-    // This adds the coordinates which have been supplied from the locate me method used to draw destination marker
+    // This adds the coordinates which have been supplied from the mainActivity class. These coordinates are used to draw destination marker.
     public void setPoint(float x, float y) {
 
         destinationPoints.add(new PointF(x, y));

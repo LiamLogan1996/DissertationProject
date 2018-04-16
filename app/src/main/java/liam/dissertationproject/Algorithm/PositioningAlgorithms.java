@@ -30,13 +30,15 @@ public class PositioningAlgorithms {
 
         int i, j;
 
-        ArrayList<String> MACAddressList = RM.getMacAdressList();
+        ArrayList<String> MACAddressList = RM.getMACAddress();
         ArrayList<String> ObservedRSS = new ArrayList<String>();
         AccessPointRecords accessPointsTempList;
         int notFoundCounter = 0;
+
         // Read parameter of algorithm
         String NaNValue = readParameter(RM.getRadioMapFile(), 0);
-        // Check which mac addresses of radio map, we are currently listening.
+
+        // Check which MAC addresses of radio map, we are currently listening.
         for (i = 0; i < MACAddressList.size(); ++i) {
 
             for (j = 0; j < latestScanList.size(); ++j) {
@@ -53,14 +55,18 @@ public class PositioningAlgorithms {
                 ++notFoundCounter;
             }
         }
+
         if (notFoundCounter == MACAddressList.size())
             return null;
 
-        // Read parameter of algorithm
+        // Read parameter from parameter file associated with chosen algorithm.
         String parameter = readParameter(RM.getRadioMapFile(), algorithm);
 
         if (parameter == null)
             return null;
+
+        // Switch Function has been used to allow other algorithms to be potentially
+        // implemented at a later data
         switch (algorithm) {
             case 1:
                 return KNNAlgorithm(RM, ObservedRSS, parameter);
@@ -70,11 +76,11 @@ public class PositioningAlgorithms {
     }
 
     /**
-     * Calculates user location based on K Nearest Neighbor (KNN) Algorithm
+     * Calculates user location based on K Nearest Neighbour (KNN) Algorithm
      *
-     * @param RM                   radio map
-     * @param ObservedRSS          RSS values currently observed
-     * @param parameter            Algorithm Specific Paramters are applied if necessary
+     * @param RM          radio map
+     * @param ObservedRSS RSS values currently observed
+     * @param parameter   Algorithm Specific Parameters are applied if necessary
      * @return The estimated user location
      */
     private static String KNNAlgorithm(RadioMap RM, ArrayList<String> ObservedRSS, String parameter) {
@@ -93,24 +99,29 @@ public class PositioningAlgorithms {
 
         // Construct a list with locations-distances pairs for currently
         // observed RSS values
-        for (String location : RM.getLocationRSS().keySet()) {
-            RSSValues = RM.getLocationRSS().get(location);
+        for (String location : RM.getLocationRSSPairs().keySet()) {
+            RSSValues = RM.getLocationRSSPairs().get(location);
             distance = EuclideanDistance(RSSValues, ObservedRSS);
 
             if (distance == Float.NEGATIVE_INFINITY)
                 return null;
 
+            // New ArrayList to assign the euclidean to the location-distance pairs.
             EuclideanDistanceLocationResult.add(0, new LocationDistance(distance, location));
         }
 
         // Sort locations-distances pairs based on minimum distances
         Collections.sort(EuclideanDistanceLocationResult, new Comparator<LocationDistance>() {
 
+            // The compare function allows two different locationDistances to be compared. Collection.sort
+            // utilises the insertion sort to sort the elements.
             public int compare(LocationDistance distanceResult1, LocationDistance distanceResult2) {
                 return (Double.compare(distanceResult1.getDistance(), distanceResult2.getDistance()));
             }
         });
 
+
+        // The position is the two coordinates which are passed from the averageKCalculated method
         position = averageKCalculatedPosition(EuclideanDistanceLocationResult, K);
 
         return position;
@@ -121,37 +132,42 @@ public class PositioningAlgorithms {
      * Calculates the Euclidean distance between the currently observed RSS
      * values and the RSS values for a specific location.
      *
-     * @param l1 RSS values of a location in radiomap
-     * @param l2 RSS values currently observed
+     * @param RSSValueRM       RSS values of a location in radiomap
+     * @param RSSValueObserved RSS values currently observed
      * @return The Euclidean distance, or MIN_VALUE for error
      */
-    private static float EuclideanDistance(ArrayList<String> l1, ArrayList<String> l2) {
+    private static float EuclideanDistance(ArrayList<String> RSSValueRM, ArrayList<String> RSSValueObserved) {
 
-        float finalResult = 0;
-        float v1;
-        float v2;
+        float finalDistance = 0;
+        float RSS1;
+        float RSS2;
         float temp;
         String str;
 
-        for (int i = 0; i < l1.size(); ++i) {
+        // For loop to loop through all the RSSValues from the radioMap. Each value can be from the
+        // RM can then be compared with the currently observed.
+        for (int i = 0; i < RSSValueRM.size(); ++i) {
 
             try {
-                str = l1.get(i);
-                v1 = Float.valueOf(str.trim());
-                str = l2.get(i);
-                v2 = Float.valueOf(str.trim());
+                str = RSSValueRM.get(i);
+                RSS1 = Float.valueOf(str.trim());
+                str = RSSValueObserved.get(i);
+                RSS2 = Float.valueOf(str.trim());
             } catch (Exception e) {
                 return Float.NEGATIVE_INFINITY;
             }
 
-            // do the procedure
-            temp = v1 - v2;
+            // store temporary value of latest result. The need for a temp value is because there
+            // are many APs for which the Euclidean distance need to be calculated. Therefore each
+            // time a new value better value is determined, it is able to replace the previous
+
+            temp = RSS1 - RSS2;
             temp *= temp;
 
-            // do the procedure
-            finalResult += temp;
+            // add temporary result to the finalDistance value.
+            finalDistance += temp;
         }
-        return ((float) Math.sqrt(finalResult));
+        return ((float) Math.sqrt(finalDistance));
     }
 
     /**
@@ -159,7 +175,7 @@ public class PositioningAlgorithms {
      * distances D
      *
      * @param LocationDistanceResults Locations-Distances pairs sorted by distance
-     * @param K                        The number of locations used
+     * @param K                       The number of locations used
      * @return The estimated user location, or null for error
      */
     private static String averageKCalculatedPosition(ArrayList<LocationDistance> LocationDistanceResults, int K) {
@@ -170,12 +186,16 @@ public class PositioningAlgorithms {
         String[] LocationArray = new String[2];
         float xCoordinate, yCoordinate;
 
-        int minimumK = K < LocationDistanceResults.size() ? K : LocationDistanceResults.size();
+        // The minimum K value to be used within the algorithm
+        int minimumK;
+        if (K < LocationDistanceResults.size()) minimumK = K;
+        else minimumK = LocationDistanceResults.size();
 
         // Calculate the sum of X and Y
         for (int i = 0; i < minimumK; ++i) {
             LocationArray = LocationDistanceResults.get(i).getLocation().split(" ");
 
+            // Store Coordinate Elements into the location
             try {
                 xCoordinate = Float.valueOf(LocationArray[0].trim());
                 yCoordinate = Float.valueOf(LocationArray[1].trim());
@@ -183,11 +203,12 @@ public class PositioningAlgorithms {
                 return null;
             }
 
+            // Cast arrayList values to averageCoordinate Variable
             averageXCoordinate += xCoordinate;
             averageYCoordinate += yCoordinate;
         }
 
-        // Calculate the average
+        // Calculate the average of coordinates based on locations used(K Value)
         averageXCoordinate /= minimumK;
         averageYCoordinate /= minimumK;
 
@@ -199,11 +220,11 @@ public class PositioningAlgorithms {
     /**
      * Reads the parameters from the file
      *
-     * @param file             the file of radiomap, to read parameters
-     * @param algorithm_choice choice of several algorithms
+     * @param file      the file of radiomap
+     * @param algorithm choice of algorithm
      * @return The parameter for the algorithm
      */
-    private static String readParameter(File file, int algorithm_choice) {
+    private static String readParameter(File file, int algorithm) {
 
         String line;
         BufferedReader reader = null;
@@ -217,24 +238,24 @@ public class PositioningAlgorithms {
 
             while ((line = reader.readLine()) != null) {
 
-                /* Ignore the labels */
+                // Remove labels from file
                 if (line.startsWith("#") || line.trim().equals("")) {
                     continue;
                 }
 
-                /* Split fields */
+                //Split the fields based on the :
                 String[] temp = line.split(":");
 
                 if (temp.length != 2) {
                     return null;
                 }
 
-                // This fills the algorithms choosen with appropriate values from algorithm
+                // This fills the algorithms chosen with appropriate values from algorithm
                 // parameters
-                if (algorithm_choice == 0 && temp[0].equals("NaN")) {
+                if (algorithm == 0 && temp[0].equals("NaN")) {
                     parameter = temp[1];
                     break;
-                } else if (algorithm_choice == 1 && temp[0].equals("KNN")) {
+                } else if (algorithm == 1 && temp[0].equals("KNN")) {
                     parameter = temp[1];
                     break;
                 }

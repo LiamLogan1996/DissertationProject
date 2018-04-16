@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -23,17 +22,17 @@ public class WiFiManager {
     /**
      * WiFi manager used to scan and get scan results
      */
-    private final WifiManager mainWifi;
+    private final WifiManager WiFi;
 
     /**
-     * Intent with the SCAN_RESULTS_AVAILABLE_ACTION action will be broadcast to
-     * asynchronously announce that the scan is complete and results are
-     * available.
+     * Intent with the SCAN_RESULTS_AVAILABLE_ACTION which will announce scan is complete
+     * and results are available
+     *
      */
-    private final IntentFilter wifiFilter;
+    private final IntentFilter intentFilter;
 
     /**
-     * Timer to perform new scheduled scans
+     * Timer for Scanning
      */
     private final Timer timer;
     /**
@@ -41,13 +40,9 @@ public class WiFiManager {
      */
     private final Context mContext;
     /**
-     * Task to perform a scan
+     *  The WiFiTasks can be scheduled for one-time by a timer
      */
     private TimerTask WifiTask;
-    /**
-     * Text View to show the scan results
-     */
-    private TextView scanResults;
 
     /**
      * If Scanning, true or false
@@ -55,60 +50,37 @@ public class WiFiManager {
     private Boolean isScanning;
 
     /**
-     * Creates a new instance
+     *
      *
      * @param context Application context
      */
     public WiFiManager(Context context) {
         mContext = context;
         isScanning = Boolean.valueOf(false);
-        mainWifi = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
-        wifiFilter = new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+
+        // This instantiates the use of the Android WI-FI manager
+        WiFi = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+
+        //Intent Filter to specify when an AP scan has completed and results are available
+        intentFilter = new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         timer = new Timer();
     }
 
-    /**
-     * Sets the TextView to show scan results
-     *
-     * @param scanResults TextView to set for scan results
-     */
-    public void setScanResultsTextView(TextView scanResults) {
-        this.scanResults = scanResults;
-    }
 
     /**
-     * @return if the WiFi manager performs a scan
-     */
-    public Boolean getIsScanning() {
-        return isScanning;
-    }
-
-    /**
-     * Sets isScanning
-     *
-     * @param isScanning Boolean to set for isScanning
-     */
-    public void setIsScanning(Boolean isScanning) {
-
-        synchronized (isScanning) {
-            this.isScanning = isScanning;
-        }
-    }
-
-    /**
-     * @return the results of the current scan
+     * @return the results of the scan
      */
     public List<ScanResult> getScanResults() {
-        return mainWifi.getScanResults();
+        return WiFi.getScanResults();
     }
 
     /**
      * Starts the Access Points Scanning
      *
      * @param receiverWifi     Receiver to register with WiFi manager
-     * @param samples_interval Interval used to perform a new scan
+     * @param samplesInterval  Interval used to perform a new scan
      */
-    public void startScan(Receiver receiverWifi, String samples_interval) {
+    public void startScan(Receiver receiverWifi, String samplesInterval) {
 
         synchronized (isScanning) {
             if (isScanning) {
@@ -117,20 +89,11 @@ public class WiFiManager {
             isScanning = true;
         }
 
-        if (samples_interval.equals("n/a") || samples_interval.equals("")) {
-            toastPrint("Samples interval not specified\nGo to Menu->Preferences->Sampling Preferences", Toast.LENGTH_LONG);
-
-            synchronized (isScanning) {
-                isScanning = false;
-            }
-            return;
-        }
-
         toastPrint("Start scanning for near Access Points...", Toast.LENGTH_SHORT);
 
         enableWifi();
 
-        mContext.registerReceiver(receiverWifi, wifiFilter);
+        mContext.registerReceiver(receiverWifi, intentFilter);
 
         if (WifiTask != null) {
             WifiTask.cancel();
@@ -144,11 +107,11 @@ public class WiFiManager {
 
             @Override
             public void run() {
-                mainWifi.startScan();
+                WiFi.startScan();
             }
         };
 
-        timer.schedule(WifiTask, 0, Long.parseLong(samples_interval));
+        timer.schedule(WifiTask, 0, Long.parseLong(samplesInterval));
 
     }
 
@@ -171,31 +134,30 @@ public class WiFiManager {
         mContext.unregisterReceiver(receiverWifi);
         toastPrint("Scanning Stopped", Toast.LENGTH_SHORT);
 
-        if (scanResults != null)
-            scanResults.setText("APs " + 0);
-
     }
 
     /**
      * Enables WiFi
      */
     private void enableWifi() {
-        if (!mainWifi.isWifiEnabled())
-            if (mainWifi.getWifiState() != WifiManager.WIFI_STATE_ENABLING)
-                mainWifi.setWifiEnabled(true);
+        if (!WiFi.isWifiEnabled())
+            // Call of Android Wifi manager. WiFi is currently being enabled.
+            if (WiFi.getWifiState() != WifiManager.WIFI_STATE_ENABLING)
+                WiFi.setWifiEnabled(true);
     }
 
     /**
      * Disables WiFi
      */
     public void disableWifi() {
-        if (mainWifi.isWifiEnabled())
-            if (mainWifi.getWifiState() != WifiManager.WIFI_STATE_DISABLING)
-                mainWifi.setWifiEnabled(false);
+        if (WiFi.isWifiEnabled())
+            // Call of Android Wifi manager. WiFi is currently being disabled.
+            if (WiFi.getWifiState() != WifiManager.WIFI_STATE_DISABLING)
+                WiFi.setWifiEnabled(false);
     }
 
     /**
-     * Print toast message to user
+     *  Toast Message Constructor
      */
     protected void toastPrint(String textMSG, int duration) {
         Toast.makeText(this.mContext, textMSG, duration).show();
