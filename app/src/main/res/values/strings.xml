@@ -7,7 +7,7 @@
 <resources>
     <string name="appName">Stirling University Navigator</string>
 
-    <string name="preferences">Settings</string>
+    <string name="settings">Settings</string>
 
     <string name="radiomapSetting">Radiomap Settings</string>
     <string name="radiomapTitle">Radiomap File</string>
@@ -17,7 +17,7 @@
     <string name="parentDir">..</string>
     <string name="homeDir">.</string>
 
-    <string name="SplashTitle"> Hello, This is your tracker here, \n I will be here to provide you assistance
+    <string name="SplashTitle"> Hello, This is your Navigator here, \n I will be here to provide you assistance
                                     throughout the University.</string>
 
     <string name="Rm1"> Room 1</string>

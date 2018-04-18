@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@drawable/background"
     android:orientation="vertical"
     android:weightSum="10"
     tools:context="liam.dissertationproject.Positioning.StartMenu">
@@ -68,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/navigationpin" />
+                    android:src="@drawable/positionicon" />
 
                 <TextView
                     android:layout_width="wrap_content"

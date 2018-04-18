@@ -126,12 +126,10 @@ public class RadioMap {
                 System.out.println("key" + key);
 
                 // Array to Hold the RSS Values from Radio Map
-                RSSValues = new ArrayList<String>();
 
-                // Add the remaining values which are associated with Coords these values will be the
-                // RSS values
-                for (int i = 2; i < temp.length; ++i)
-                    RSSValues.add(temp[i]);
+                // Add the remaining values associated with the coords. These values will be the
+                // RSS Values
+                RSSValues = new ArrayList<String>(Arrays.asList(temp).subList(2, temp.length));
 
                 // Ensure Equal number of MAC address and RSS Values
                 if (this.MACAddress.size() != RSSValues.size())

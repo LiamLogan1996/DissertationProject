@@ -228,6 +228,14 @@
         </menu>
     </item>
 
+
+
+
+    <!-- Only Lecture Theatres and 2A Corridor have been implemented
+         The remainder of Corridors have been added to show what could be added in future
+         So when testing the function of the menuOption for the destination only attempt to use
+         Lecture theatre and Corridor 2A Rooms -->
+
     <item android:title="Corridor 2B Rooms -->">
 
         <menu>

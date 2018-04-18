@@ -842,7 +842,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         if (key == null)
             return;
 
-        // Key for preference of loading image into the application
+        // Key for preference of loading image into the application on start up
         if (key.equals("image")) {
 
             try {
@@ -889,7 +889,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            // Positioning
+            // Positioning Button
             case R.id.positioning:
                 if (isPositioning.isChecked()) {
                     this.positionMe.setBoolean(true);
@@ -972,11 +972,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
      */
     private boolean ReadWidthHeigthFromFile() {
 
-
         //AssetManager allows files to be retrieved from asset folder in Android Studio
         AssetManager assetManager = getAssets();
 
-        // Get the config file from assets
+        // Get the map config file from assets
         InputStream input = null;
         try {
             input = assetManager.open("mapDimensions.config");
@@ -998,7 +997,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     continue;
                 }
 
+                // Remove , which sits between both values
                 line = line.replace(": ", " ");
+
                 /* Split fields */
                 String[] temp = line.split(" ");
 
@@ -1006,6 +1007,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     return false;
                 }
 
+                // Store width & height into temp values
                 if (i == 0)
                     floorPlanWidth = temp[1];
                 else

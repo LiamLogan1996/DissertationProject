@@ -7,5 +7,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/Preferences"
-        android:title="@string/preferences"></item>
+        android:title="@string/settings"></item>
 </menu>

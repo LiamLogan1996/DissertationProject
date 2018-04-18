@@ -142,7 +142,7 @@ public class Positioning implements Observer {
 
         // Clear all overlays if it is not tracking
         if (!positionMe.get())
-            zoomView.clearRecordedPoints();
+            zoomView.clearRecordedPositions();
 
         int xPixels = (int) ((x * bitmap.getWidth()) / bitmapWidth);
         int yPixels = (int) ((y * bitmap.getHeight()) / bitmapHeight);
@@ -174,7 +174,7 @@ public class Positioning implements Observer {
         zoomControl.getZoomState().setPanY(0.5f);
         zoomControl.getZoomState().setZoom(2f);
         zoomControl.getZoomState().notifyObservers();
-        zoomView.clearRecordedPoints();
+        zoomView.clearRecordedPositions();
     }
 
 
@@ -191,7 +191,7 @@ public class Positioning implements Observer {
     public void update(Observable observable, Object data) {
         // Clear all overlays if it is not tracking
         if (!positionMe.get()) {
-            zoomView.clearRecordedPoints();
+            zoomView.clearRecordedPositions();
         }
 
     }

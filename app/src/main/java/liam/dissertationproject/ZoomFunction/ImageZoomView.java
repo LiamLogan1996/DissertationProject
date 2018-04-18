@@ -81,7 +81,7 @@ public class ImageZoomView extends View implements Observer {
     private ZoomState state;
     // Public methods
     private BitmapCoordinates currentPosition;
-    private ArrayList<PointF> recordedPoints = new ArrayList<PointF>();
+    private ArrayList<PointF> recordedPositions = new ArrayList<PointF>();
     private PositionObservable positionMe;
 
     /**
@@ -116,7 +116,7 @@ public class ImageZoomView extends View implements Observer {
 
         aspectQuotient.updateAspectQuotient(getWidth(), getHeight(), this.bitmap.getWidth(), this.bitmap.getHeight());
         aspectQuotient.notifyObservers();
-        recordedPoints.clear();
+        recordedPositions.clear();
         invalidate();
     }
 
@@ -204,7 +204,7 @@ public class ImageZoomView extends View implements Observer {
             // Used to draw the destination marker onto the bitmap
             for (int i = 0; i < destinationPoints.size(); i++) {
 
-                Bitmap marker = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
+                Bitmap marker = BitmapFactory.decodeResource(getResources(), R.drawable.destinationmarker);
 
                 // Draw the marker by getting the x and y values from the menu option clicked. This value is obtained setPoint method below
                 canvas.drawBitmap(marker, (destinationPoints.get(i).x - rectSrc.left) / XDimensions + rectDst.left, ((destinationPoints.get(i).y - rectSrc.top) / YDimensions)
@@ -219,17 +219,17 @@ public class ImageZoomView extends View implements Observer {
                 PointF point = null;
 
                 //This for loop checks if a point has previously been drawn
-                for (int i = 0; i < recordedPoints.size(); ++i) {
-                    point = recordedPoints.get(i);
+                for (int i = 0; i < recordedPositions.size(); ++i) {
+                    point = recordedPositions.get(i);
 
                     if (currentPosition.get().equals(point.x, point.y)) {
                         previouslyMarked = true;
 
-                        PointF previousPosition = recordedPoints.get(recordedPoints.size() - 1);
+                        PointF previousPosition = recordedPositions.get(recordedPositions.size() - 1);
 
                         if (previousPosition != point) {
-                            point = recordedPoints.set(i, previousPosition);
-                            recordedPoints.set(recordedPoints.size() - 1, point);
+                            point = recordedPositions.set(i, previousPosition);
+                            recordedPositions.set(recordedPositions.size() - 1, point);
                         }
                         break;
                     }
@@ -237,17 +237,17 @@ public class ImageZoomView extends View implements Observer {
 
                 // Add new point to arrayList if the current point has not been previously added
                 if (!previouslyMarked)
-                    recordedPoints.add(new PointF(currentPosition.get().x, currentPosition.get().y));
+                    recordedPositions.add(new PointF(currentPosition.get().x, currentPosition.get().y));
             }
 
             // When the boolean observable is set to true, the observers are notified and the marker is drawn
-            for (int i = 0; i < recordedPoints.size(); ++i) {
+            for (int i = 0; i < recordedPositions.size(); ++i) {
 
-                if (i == recordedPoints.size() - 1) {
+                if (i == recordedPositions.size() - 1) {
                     if (positionMe.get()) {
-                        Bitmap trackerMarker = BitmapFactory.decodeResource(getResources(), R.drawable.tracker_marker);
+                        Bitmap trackerMarker = BitmapFactory.decodeResource(getResources(), R.drawable.positioningmarker);
 
-                        PointF temp = recordedPoints.get(i);
+                        PointF temp = recordedPositions.get(i);
 
                         // This marker is placed at the x and y coords which sits within the dimension of the map and source square. Due to pixel errors,
                         //adjustments to the markers position can be to ensure that it fits within the required spacing on the maps corridors for example.
@@ -285,8 +285,8 @@ public class ImageZoomView extends View implements Observer {
     }
 
     // Clear the previous marked points
-    public void clearRecordedPoints() {
-        recordedPoints.clear();
+    public void clearRecordedPositions() {
+        recordedPositions.clear();
         invalidate();
     }
 
